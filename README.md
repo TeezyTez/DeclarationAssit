@@ -1,6 +1,6 @@
-# MPCI 智能问答系统
+# MPCI申报助手系统
 
-这是一个面向 UAE MPCI（Maritime Pre-Load Cargo Information）的本地智能问答系统。项目基于 FastAPI 提供 Web 页面和 REST API，通过 ChromaDB 向量库检索《UAE MPCI Business Specification Document V1.0》的知识片段，再交给 LLM 或内置模板生成回答。
+这是一个面向 UAE MPCI（Maritime Pre-Load Cargo Information）的申报助手系统。项目基于 FastAPI 提供 Web 页面和 REST API，通过 ChromaDB 向量库检索《UAE MPCI Business Specification Document V1.0》的知识片段，再交给 LLM 或内置模板生成回答。
 
 ## 功能概览
 
