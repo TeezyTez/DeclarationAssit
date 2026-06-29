@@ -1,0 +1,86 @@
+[
+  {
+    "id": "en_hbl_general_info",
+    "question": "Is there any special document mandatory for HBL since some shipper only provide us general information? Such as minimum HS code, commodity details, shipper and cnee detail.",
+    "language": "en",
+    "must_contain_any": ["no separate", "no special", "not sufficient", "complete"],
+    "bad_terms": ["according to the document", "reference", "section"]
+  },
+  {
+    "id": "zh_forwarder_no_own_hbl",
+    "question": "我是货代，但是我的下层货代直接给我货物，不需要我签发自己的提单，我应该怎么申报？",
+    "language": "zh",
+    "must_contain_any": ["不要", "不应该", "实际签发", "MPCI Party ID"],
+    "bad_terms": ["参考章节", "参考来源", "文档", "手册", "无法判断"]
+  },
+  {
+    "id": "en_to_order_consignee",
+    "question": "For a To Order HBL, should we put To Order in consignee or leave consignee blank?",
+    "language": "en",
+    "must_contain_any": ["leave", "blank", "do not", "To Order"],
+    "bad_terms": ["according to", "reference", "section"]
+  },
+  {
+    "id": "zh_to_order_bank",
+    "question": "如果提单是 To Order of Bank，收货人应该填银行吗？",
+    "language": "zh",
+    "must_contain_any": ["留空", "银行", "Payer"],
+    "bad_terms": ["参考章节", "参考来源", "文档", "手册"]
+  },
+  {
+    "id": "en_dnl_house",
+    "question": "If one house bill receives DNL, can the other house bills under the same master still be loaded?",
+    "language": "en",
+    "must_contain_any": ["other house", "not affected", "remove", "re-consolidate"],
+    "bad_terms": ["according to", "reference", "section"]
+  },
+  {
+    "id": "zh_rfi_master",
+    "question": "如果 Master B/L 收到 RFI，House B/L 已经 ACT，可以装船吗？",
+    "language": "zh",
+    "must_contain_any": ["不能", "Master", "RFI", "ACT"],
+    "bad_terms": ["参考章节", "参考来源", "文档", "手册"]
+  },
+  {
+    "id": "en_missing_child_psf",
+    "question": "What should we do if shipping line receives PSF because one sub co-loader has not filed the house bill?",
+    "language": "en",
+    "must_contain_any": ["contact", "sub co-loader", "missing", "house"],
+    "bad_terms": ["according to", "reference", "section"]
+  },
+  {
+    "id": "zh_party_id_share",
+    "question": "货代的 MPCI Party ID 是否会公开给其他货代查询？如果同行要申报怎么给他？",
+    "language": "zh",
+    "must_contain_any": ["不公开", "分享", "Party ID"],
+    "bad_terms": ["参考章节", "参考来源", "文档", "手册"]
+  },
+  {
+    "id": "en_update_after_arrival",
+    "question": "Can we update the bill of lading after the shipment arrives in UAE?",
+    "language": "en",
+    "must_contain_any": ["can", "after arrival", "updates"],
+    "bad_terms": ["according to", "reference", "section"]
+  },
+  {
+    "id": "zh_filing_timing_direct",
+    "question": "Direct B/L 最晚什么时候申报？",
+    "language": "zh",
+    "must_contain_any": ["24", "装船前"],
+    "bad_terms": ["参考章节", "参考来源", "文档", "手册"]
+  },
+  {
+    "id": "en_vague_goods",
+    "question": "Can we declare goods description as general cargo if shipper cannot provide exact commodity?",
+    "language": "en",
+    "must_contain_any": ["do not", "not acceptable", "specific", "description"],
+    "bad_terms": ["according to", "reference", "section"]
+  },
+  {
+    "id": "zh_delegate_sub_to_master",
+    "question": "下层货代可以委托上层 Master Co-loader 代申报吗？需要注意什么？",
+    "language": "zh",
+    "must_contain_any": ["可以", "委托", "Party ID", "责任"],
+    "bad_terms": ["参考章节", "参考来源", "文档", "手册"]
+  }
+]

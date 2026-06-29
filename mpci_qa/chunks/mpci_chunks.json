@@ -1,0 +1,415 @@
+[
+  {
+    "id": "sec_1",
+    "title": "Purpose",
+    "section_num": "1",
+    "page_ref": "p.5",
+    "content_length": 2307
+  },
+  {
+    "id": "sec_2",
+    "title": "Introduction",
+    "section_num": "2",
+    "page_ref": "p.6-7",
+    "content_length": 14
+  },
+  {
+    "id": "sec_2_1",
+    "title": "Overview",
+    "section_num": "2.1",
+    "page_ref": "p.6",
+    "content_length": 1472
+  },
+  {
+    "id": "sec_2_2",
+    "title": "Legal Framework",
+    "section_num": "2.2",
+    "page_ref": "p.7",
+    "content_length": 624
+  },
+  {
+    "id": "sec_3",
+    "title": "Scope and Requirements",
+    "section_num": "3",
+    "page_ref": "p.8-12",
+    "content_length": 204
+  },
+  {
+    "id": "sec_3_1",
+    "title": "Filers and Their Roles",
+    "section_num": "3.1",
+    "page_ref": "p.8",
+    "content_length": 823
+  },
+  {
+    "id": "sec_3_2",
+    "title": "Required Documents",
+    "section_num": "3.2",
+    "page_ref": "p.9",
+    "content_length": 1516
+  },
+  {
+    "id": "sec_3_3",
+    "title": "Filing Timing",
+    "section_num": "3.3",
+    "page_ref": "p.10",
+    "content_length": 420
+  },
+  {
+    "id": "sec_3_4",
+    "title": "Inclusions",
+    "section_num": "3.4",
+    "page_ref": "p.10",
+    "content_length": 524
+  },
+  {
+    "id": "sec_3_5",
+    "title": "Exclusions",
+    "section_num": "3.5",
+    "page_ref": "p.10",
+    "content_length": 823
+  },
+  {
+    "id": "sec_3_6",
+    "title": "Integration Requirements",
+    "section_num": "3.6",
+    "page_ref": "p.11-12",
+    "content_length": 2222
+  },
+  {
+    "id": "sec_4",
+    "title": "MPCI Business Processes",
+    "section_num": "4",
+    "page_ref": "p.13-25",
+    "content_length": 25
+  },
+  {
+    "id": "sec_4_1",
+    "title": "MPCI Business Process Overview",
+    "section_num": "4.1",
+    "page_ref": "p.13",
+    "content_length": 1426
+  },
+  {
+    "id": "sec_4_2",
+    "title": "MPCI Onboarding Process",
+    "section_num": "4.2",
+    "page_ref": "p.14",
+    "content_length": 1114
+  },
+  {
+    "id": "sec_4_3",
+    "title": "MPCI Filing Process",
+    "section_num": "4.3",
+    "page_ref": "p.14",
+    "content_length": 23
+  },
+  {
+    "id": "sec_4_3_1",
+    "title": "Shipping Line and Master Co-Loader Filing",
+    "section_num": "4.3.1",
+    "page_ref": "p.14-16",
+    "content_length": 4931
+  },
+  {
+    "id": "sec_4_3_2",
+    "title": "Freight Forwarder / Sub Co-loader Filing",
+    "section_num": "4.3.2",
+    "page_ref": "p.17-18",
+    "content_length": 3467
+  },
+  {
+    "id": "sec_4_4",
+    "title": "Message Validation",
+    "section_num": "4.4",
+    "page_ref": "p.19-20",
+    "content_length": 1868
+  },
+  {
+    "id": "sec_4_5",
+    "title": "MPCI Shipment Assessment",
+    "section_num": "4.5",
+    "page_ref": "p.21",
+    "content_length": 2832
+  },
+  {
+    "id": "sec_4_6",
+    "title": "Delegation Process",
+    "section_num": "4.6",
+    "page_ref": "p.22-25",
+    "content_length": 219
+  },
+  {
+    "id": "sec_4_6_1",
+    "title": "Delegation for Freight Forwarders",
+    "section_num": "4.6.1",
+    "page_ref": "p.22-23",
+    "content_length": 1875
+  },
+  {
+    "id": "sec_4_6_2",
+    "title": "Delegation to Shipping Agents",
+    "section_num": "4.6.2",
+    "page_ref": "p.24-25",
+    "content_length": 2098
+  },
+  {
+    "id": "sec_4_6_3",
+    "title": "NAIC Responses in Cases of Delegation",
+    "section_num": "4.6.3",
+    "page_ref": "p.25",
+    "content_length": 520
+  },
+  {
+    "id": "sec_5",
+    "title": "MPCI Business Data Requirements",
+    "section_num": "5",
+    "page_ref": "p.26-31",
+    "content_length": 508
+  },
+  {
+    "id": "sec_5_1",
+    "title": "Business Data Elements",
+    "section_num": "5.1",
+    "page_ref": "p.27-29",
+    "content_length": 3666
+  },
+  {
+    "id": "sec_5_2",
+    "title": "Handling Consignee Data Element Scenarios",
+    "section_num": "5.2",
+    "page_ref": "p.30",
+    "content_length": 641
+  },
+  {
+    "id": "sec_5_3",
+    "title": "MPCI Party ID – Definition and Usage",
+    "section_num": "5.3",
+    "page_ref": "p.31",
+    "content_length": 303
+  },
+  {
+    "id": "sec_5_3_1",
+    "title": "MPCI Party ID Usage",
+    "section_num": "5.3.1",
+    "page_ref": "p.31",
+    "content_length": 783
+  },
+  {
+    "id": "sec_5_3_2",
+    "title": "MPCI Party ID Issuance and Sharing",
+    "section_num": "5.3.2",
+    "page_ref": "p.31",
+    "content_length": 620
+  },
+  {
+    "id": "sec_6",
+    "title": "Special Business Scenarios",
+    "section_num": "6",
+    "page_ref": "p.32-41",
+    "content_length": 28
+  },
+  {
+    "id": "sec_6_1",
+    "title": "Consolidation and Co-loading",
+    "section_num": "6.1",
+    "page_ref": "p.32-35",
+    "content_length": 179
+  },
+  {
+    "id": "sec_6_1_1",
+    "title": "NAIC Requirements Overview",
+    "section_num": "6.1.1",
+    "page_ref": "p.32",
+    "content_length": 1184
+  },
+  {
+    "id": "sec_6_1_2",
+    "title": "Shipping Line Filing",
+    "section_num": "6.1.2",
+    "page_ref": "p.33",
+    "content_length": 282
+  },
+  {
+    "id": "sec_6_1_3",
+    "title": "Freight Forwarder Filing",
+    "section_num": "6.1.3",
+    "page_ref": "p.33",
+    "content_length": 279
+  },
+  {
+    "id": "sec_6_1_3_1",
+    "title": "Normal Filing Scenario",
+    "section_num": "6.1.3.1",
+    "page_ref": "p.33",
+    "content_length": 885
+  },
+  {
+    "id": "sec_6_1_3_2",
+    "title": "Delegation Options",
+    "section_num": "6.1.3.2",
+    "page_ref": "p.33",
+    "content_length": 850
+  },
+  {
+    "id": "sec_6_1_4",
+    "title": "NAIC Assessment Responses",
+    "section_num": "6.1.4",
+    "page_ref": "p.34-35",
+    "content_length": 2327
+  },
+  {
+    "id": "sec_6_1_5",
+    "title": "Coordination and Linking of Filing",
+    "section_num": "6.1.5",
+    "page_ref": "p.35",
+    "content_length": 1028
+  },
+  {
+    "id": "sec_6_2",
+    "title": "Updating a Bill of Lading",
+    "section_num": "6.2",
+    "page_ref": "p.36-41",
+    "content_length": 431
+  },
+  {
+    "id": "sec_6_2_1",
+    "title": "Update Scenarios",
+    "section_num": "6.2.1",
+    "page_ref": "p.36-37",
+    "content_length": 1834
+  },
+  {
+    "id": "sec_6_2_2",
+    "title": "General Considerations for Bill of Lading Updates",
+    "section_num": "6.2.2",
+    "page_ref": "p.37",
+    "content_length": 1150
+  },
+  {
+    "id": "sec_6_2_3",
+    "title": "Split Bill of Lading Handling",
+    "section_num": "6.2.3",
+    "page_ref": "p.38-40",
+    "content_length": 2412
+  },
+  {
+    "id": "sec_6_2_4",
+    "title": "NAIC Assessment Responses for Updates",
+    "section_num": "6.2.4",
+    "page_ref": "p.41",
+    "content_length": 1782
+  },
+  {
+    "id": "sec_7",
+    "title": "Data Quality Rules",
+    "section_num": "7",
+    "page_ref": "p.42",
+    "content_length": 1718
+  },
+  {
+    "id": "sec_8",
+    "title": "Communications",
+    "section_num": "8",
+    "page_ref": "p.43",
+    "content_length": 16
+  },
+  {
+    "id": "sec_8_1",
+    "title": "Maintaining Up-to-Date Contact Information",
+    "section_num": "8.1",
+    "page_ref": "p.43",
+    "content_length": 190
+  },
+  {
+    "id": "sec_8_2",
+    "title": "Communication from NAIC",
+    "section_num": "8.2",
+    "page_ref": "p.43",
+    "content_length": 257
+  },
+  {
+    "id": "sec_8_3",
+    "title": "Contacting NAIC for Assistance",
+    "section_num": "8.3",
+    "page_ref": "p.43",
+    "content_length": 188
+  },
+  {
+    "id": "sec_9",
+    "title": "Business Continuity",
+    "section_num": "9",
+    "page_ref": "p.44",
+    "content_length": 311
+  },
+  {
+    "id": "sec_10",
+    "title": "Glossary",
+    "section_num": "10",
+    "page_ref": "p.45-46",
+    "content_length": 1725
+  },
+  {
+    "id": "sec_11",
+    "title": "References",
+    "section_num": "11",
+    "page_ref": "p.47",
+    "content_length": 392
+  },
+  {
+    "id": "sec_12",
+    "title": "Appendices",
+    "section_num": "12",
+    "page_ref": "p.48-56",
+    "content_length": 13
+  },
+  {
+    "id": "sec_12_1",
+    "title": "Appendix A – BPMN Annotations",
+    "section_num": "12.1",
+    "page_ref": "p.48",
+    "content_length": 913
+  },
+  {
+    "id": "sec_12_3",
+    "title": "Appendix C – Party Information Guidelines",
+    "section_num": "12.3",
+    "page_ref": "p.49-50",
+    "content_length": 2813
+  },
+  {
+    "id": "sec_12_4_g1",
+    "title": "Appendix D – Goods Description Guidelines - 货物描述规范 (part 1)",
+    "section_num": "12.4",
+    "page_ref": "p.51-56",
+    "content_length": 1511
+  },
+  {
+    "id": "sec_12_4_g2",
+    "title": "Appendix D – Goods Description Guidelines - 货物描述规范 (part 2)",
+    "section_num": "12.4",
+    "page_ref": "p.51-56",
+    "content_length": 1599
+  },
+  {
+    "id": "sec_12_4_g3",
+    "title": "Appendix D – Goods Description Guidelines - 货物描述规范 (part 3)",
+    "section_num": "12.4",
+    "page_ref": "p.51-56",
+    "content_length": 1589
+  },
+  {
+    "id": "sec_12_4_g4",
+    "title": "Appendix D – Goods Description Guidelines - 货物描述规范 (part 4)",
+    "section_num": "12.4",
+    "page_ref": "p.51-56",
+    "content_length": 1595
+  },
+  {
+    "id": "sec_12_4_g5",
+    "title": "Appendix D – Goods Description Guidelines - 货物描述规范 (part 5)",
+    "section_num": "12.4",
+    "page_ref": "p.51-56",
+    "content_length": 980
+  }
+]

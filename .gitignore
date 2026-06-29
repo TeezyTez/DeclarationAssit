@@ -1,0 +1,35 @@
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Runtime logs
+*.log
+mpci_server.out.log
+mpci_server.err.log
+
+# Local/vector generated data
+mpci_qa/vector_store/
+
+# Business documents and test fixtures kept local
+TEMP/
+TEST/
+新建文件夹/
+.agents/
+.claude/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

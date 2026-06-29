@@ -1,0 +1,92 @@
+[
+  {
+    "id": "timing_zh",
+    "question": "申报截止时间是多久？",
+    "expected_sections": ["3.3"],
+    "must_contain": ["6 Hours Pre-load", "24 Hours Pre-load"]
+  },
+  {
+    "id": "timing_en",
+    "question": "What is the filing timing for master bill and direct bill?",
+    "expected_sections": ["3.3"],
+    "must_contain": ["Master Bill of Lading", "Direct Bill of Lading"]
+  },
+  {
+    "id": "consignee_to_order",
+    "question": "To Order 提单的收货人应该怎么填？",
+    "expected_sections": ["5.2", "12.3"],
+    "must_contain": ["Consignee"]
+  },
+  {
+    "id": "hs_code",
+    "question": "多个 HS Code 怎么申报？",
+    "expected_sections": ["5.1", "12.4"],
+    "must_contain": ["HS Code", "Goods Description"]
+  },
+  {
+    "id": "hbl_mandatory_document_general_info",
+    "question": "Is there any special document mandatory for HBL since some shipper only provide us general information? (Such as minimum hs code, commodity details, shipper and cnee detail)",
+    "expected_sections": ["3.2", "5.1", "5.2"],
+    "must_contain": ["HBL", "shipper", "consignee", "HS Code"]
+  },
+  {
+    "id": "delegation",
+    "question": "我可以委托海外货代代申报吗？",
+    "expected_sections": ["4.6.1"],
+    "must_contain": ["Delegation"]
+  },
+  {
+    "id": "shipping_agent_delegation",
+    "question": "船公司能不能委托船代处理 MPCI 申报？",
+    "expected_sections": ["4.6.2"],
+    "must_contain": ["Shipping Agents"]
+  },
+  {
+    "id": "consolidation",
+    "question": "Consolidation 和 co-loading 要怎么申报？",
+    "expected_sections": ["6.1"],
+    "must_contain": ["Consolidation", "Co-loading"]
+  },
+  {
+    "id": "forwarder_child_cargo_no_own_bl",
+    "question": "我是货代，我的下层会给我货物，但不需要我生成我的提单号，我应该怎么申报？",
+    "expected_sections": ["6.1", "6.1.3", "6.1.5"],
+    "must_contain": ["parent", "MPCI Party ID"]
+  },
+  {
+    "id": "forwarder_child_cargo_no_own_hbl",
+    "question": "我是货代，但是我的下层货代直接给我货物，不需要我签发自己的提单",
+    "expected_sections": ["6.1", "6.1.3", "6.1.5"],
+    "must_contain": ["House B/L", "MPCI Party ID"]
+  },
+  {
+    "id": "dnl",
+    "question": "收到 Do Not Load 怎么办？",
+    "expected_sections": ["4.5", "6.1.4"],
+    "must_contain": ["Do Not Load"]
+  },
+  {
+    "id": "rfi",
+    "question": "RFI 是什么意思？需要怎么处理？",
+    "expected_sections": ["4.5", "6.1.4"],
+    "must_contain": ["Request for Information"]
+  },
+  {
+    "id": "party_id",
+    "question": "MPCI Party ID 是什么，怎么使用？",
+    "expected_sections": ["5.3"],
+    "must_contain": ["MPCI Party ID"]
+  },
+  {
+    "id": "update_bl",
+    "question": "提单更新有什么规则？",
+    "expected_sections": ["6.2"],
+    "must_contain": ["Updating a Bill of Lading"]
+  },
+  {
+    "id": "split_bill",
+    "question": "Split Bill of Lading 怎么处理？",
+    "expected_sections": ["6.2.3"],
+    "must_contain": ["Split Bill"]
+  }
+]

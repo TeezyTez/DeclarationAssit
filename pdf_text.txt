@@ -1,0 +1,2099 @@
+Total pages: 56
+--- Page 1 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+National Advance Information Center (NAIC) 
+Maritime Pre-Load Cargo Information Program (MPCI) 
+Business Specification Document 
+ 
+ 
+ 
+Document Version: 1.0 
+
+--- Page 2 ---
+  
+  
+ 
+2 
+ 
+Document Version History  
+Version No.  Date Brief description of changes  
+1.0 15 Mar 2025  First Public Release 
+ 
+  
+--- Page 3 ---
+  
+  
+ 
+3 
+ 
+Table of Content  
+ 
+1 Purpose ................................................................................................................................... 5 
+2 Introduction ............................................................................................................................ 6 
+2.1 Overview .......................................................................................................................... 6 
+2.2 Legal Framework .............................................................................................................. 7 
+3 Scope and Requirements ........................................................................................................ 8 
+3.1 Filers and Their Roles ....................................................................................................... 8 
+3.2 Required Documents ........................................................................................................ 9 
+3.3 Filing Timing ................................................................................................................... 10 
+3.4 Inclusions ........................................................................................................................ 10 
+3.5 Exclusions ....................................................................................................................... 10 
+3.6 Integration Requirements .............................................................................................. 11 
+4 MPCI Business Processes ...................................................................................................... 13 
+4.1 MPCI Business Process Overview ................................................................................... 13 
+4.2 MPCI Onboarding Process .............................................................................................. 14 
+4.3 MPCI Filing Process ........................................................................................................ 14 
+4.3.1 Shipping Line and Master Co-Loader Filing Process ............................................... 14 
+4.3.2 Freight Forwarder / Sub Co-loader Filing Process .................................................. 17 
+4.4 Message Validation ........................................................................................................ 19 
+4.5 MPCI Shipment Assessment ........................................................................................... 21 
+4.6 Delegation Process ......................................................................................................... 22 
+4.6.1 Delegation for Freight Forwarders ......................................................................... 22 
+4.6.2 Delegation to Shipping Agents ................................................................................ 24 
+4.6.3 NAIC Responses in Cases of Delegation .................................................................. 25 
+5 MPCI Business Data Requirements ....................................................................................... 26 
+5.1 Business Data Elements ................................................................................................. 27 
+5.2 Handling Consignee Data Element Scenarios ................................................................ 30 
+5.3 MPCI Party ID – Definition and Usage ............................................................................ 31 
+5.3.1 MPCI Party ID usage ................................................................................................ 31 
+5.3.2 MPCI Issuance and Sharing ..................................................................................... 31 
+--- Page 4 ---
+  
+  
+ 
+4 
+ 
+6 Special Business Scenarios .................................................................................................... 32 
+6.1 Consolidation and Co-loading ........................................................................................ 32 
+6.1.1 NAIC Requirements Overview ................................................................................ 32 
+6.1.2 Shipping Line Filing ................................................................................................. 33 
+6.1.3 Freight Forwarder Filing .......................................................................................... 33 
+6.1.4 NAIC Assessment Responses .................................................................................. 34 
+6.1.5 Coordination and Linking of Filing .......................................................................... 35 
+6.2 Updating a Bill of Lading................................................................................................. 36 
+6.2.1 Update Scenarios .................................................................................................... 36 
+6.2.2 General Considerations for Bill of Lading Updates: ................................................ 37 
+6.2.3 Split Bill of Lading Handling .................................................................................... 38 
+6.2.4 NAIC Assessment Responses for Updates .............................................................. 41 
+7 Data Quality Rules ................................................................................................................. 42 
+8 Communications ................................................................................................................... 43 
+8.1 Maintaining Up-to-Date Contact Information ............................................................... 43 
+8.2 Communication from NAIC ............................................................................................ 43 
+8.3 Contacting NAIC for Assistance ...................................................................................... 43 
+9 Business Continuity ............................................................................................................... 44 
+10 Glossary ................................................................................................................................. 45 
+11 References ............................................................................................................................ 47 
+12 Appendices ............................................................................................................................ 48 
+12.1 Appendix A – BPMN Annotations .................................................................................. 48 
+12.2 Appendix B – Message Samples ........................................ Error! Bookmark not defined. 
+12.3 Appendix C – Party Information Guidelines ................................................................... 49 
+12.4 Appendix D – Goods Description Guidelines ................................................................. 51 
+ 
+  
+--- Page 5 ---
+  
+  
+ 
+5 
+ 
+1 Purpose 
+The National Advance Information Center or “NAIC”, collects travel and trade information from 
+various sources on passenger and cargo movements across the UAE, to perform risk assessment 
+and increase national security levels. NAIC is one of the departments of the Federal Authority for 
+Identity, Citizenship, Customs and Port Security. 
+ 
+NAIC’s Pre-Loading Advance Cargo Information (PLACI) program performs risk analysis to identify 
+potential threats from cargo moved through any of the UAE borders. The program has 
+successfully implemented the system for air cargo and this document is to focus on Maritime 
+Pre-Load Cargo Information Program (MPCI) expanding the program  scope to cover maritime 
+cargo. The program continues to facilitate legitimate trade while increasing borders security 
+level. Land cargo requirements will be addressed separately in subsequent phases. 
+ 
+For the MPCI program to be effective in carrying out risk  mitigation measures before cargo can 
+be loaded onto vessel bound to the UAE, cargo information is to be filed by either shipping line, 
+Non-Vessel Operating Common Carrier (NVOCC) or freight forwarder within specific time frames 
+and using standard message formats and protocols. NAIC will also respond with assessment 
+response electronically to the filer. 
+ 
+MPCI program represents an additional security layer that virtually extends the UAE borders 
+towards the foreign ports of loading. The program does not inte rfere nor affect other existing 
+laws or legislations that are imposed and controlled by other agencies, such as local customs 
+authorities in the UAE and governmental agencies that provide certifications or permits to allow 
+the movement of goods across the UAE borders. 
+ 
+To facilitate the adoption of the UAE MPCI program, the underlying system design have been 
+prepared and aligned with the principles provided by the United Nations rules for Electronic Data 
+Interchange for Administration, Commerce and Transport (UN/EDIFACT) standards , taking into 
+consideration experiences and practices that are applied or are being built in similar international 
+initiatives. Extensive industry and market research have also been conducted to make sure the 
+system and its processes do not conflict with maritime cargo processes in any way that could 
+affect trade flow. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 6 ---
+  
+  
+ 
+6 
+ 
+2 Introduction  
+ 
+2.1 Overview 
+Economic operators such as Shipping Lines or their representatives , Freight forwarders and 
+NVOCCs which are bringing cargo throu gh or into the UAE are required to file shipment data to 
+NAIC. NAIC avails several Technology Service Providers to fulfill such filing requirements. 
+ 
+Economic operators will receive assessment response from NAIC with instructions to either load, 
+do not load or provide additional information for the shipment before loading onto the vessel. 
+ 
+NAIC will depend on accredited technology service providers to facilitate filing requirements ; 
+Freight forwarders , Shipping Agents and NVOCC will be filing shipment data through service 
+providers. However, shipping lines have the option either to integrate through accredited service 
+providers or through direct integrat ion with NAIC system.  Filing responsibility and delegation 
+rules for different participants  in the maritime cargo movement process are detailed in the 
+subsequent sections of the document. 
+ 
+Throughout the document, the term “Filer” will  be used to refer to shipping lines , shipping 
+agents, freight forwarders or NVOCCs, while “Technology Service provider” will be used to refer 
+to the technology service providers. 
+ 
+The diagram below shows a high -level flow of data between the filer and the system, followed 
+by a brief description. Subsequent sections provide more details on the formats, channels and 
+timing requirements for each message type. 
+ 
+ 
+Figure 1 Data Flow 
+ 
+ 
+
+--- Page 7 ---
+  
+  
+ 
+7 
+ 
+This program addresses the mandatory submission of electronic messages for containerized 
+cargo in international maritime transport, by shipping lines or their representatives and freight 
+forwarders. The main trade documents in the program scope are the Shipping Line’s Bill of lading 
+and Freight Forwarders’ Bill of lading.  
+ 
+The process starts when the filer submits the bill s of lading to the system for containerized 
+shipments that are bound to  or transit through the UAE. The process of submitting trade 
+information is referenced as “filing”.  
+ 
+The system validates and assesses shipment data, providing response to the filer. It sends a 
+validation message confirming  acceptance or rejection due to validation errors requiring 
+correction and resubmission . And assessment response indicating whether the cargo can or 
+cannot be loaded on the vessel or a response requesting additional information. 
+ 
+2.2 Legal Framework  
+ 
+The legal framework for establishing NAIC and MPCI program in the UAE is under Federal Decree 
+Law No. 22 of 2018 and Resolution No. 15 of 2019, mandating cargo information filings across all 
+modes of transport. These regulations outline the required data, filing timelines, accountable 
+parties. As per UAE Cabinet Resolution No. (23) of 2023, shipping lines and forwarders must 
+electronically submit Bills of Lading to NAIC before loading at the last foreign departure port 
+outside the UAE. This applies to all c ontainerized maritime cargo destined for import, 
+transshipment, or transit through the UAE. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 8 ---
+  
+  
+ 
+8 
+ 
+3 Scope and Requirements 
+This section outlines the scope of NAIC’s requirements, detailing the roles of filers, the types of 
+documents to be submitted, filing timelines, and the inclusions and exclusions. 
+ 
+3.1 Filers and Their Roles 
+Below is a list of filer roles required to submit documents under the NAIC MPCI program: 
+ Shipping Line: The entity that owns or operates the vessel transporting the cargo. 
+ Shipping Agents: A representative of a shipping line who may be delegated to assume 
+liability or manage the filing process with NAIC. 
+ Freight Forwarders : A logistics provider that coordinates and consolidates shipments 
+from multiple shippers into a single consignment. 
+ Master Co-loaders: A freight forwarder or NVOCC that consolidates shipments from other 
+freight forwarders (sub co -loaders) in a co -loading arrangement  (see section 6.1), 
+managing the overall consolidated shipment. 
+ Sub Co-Loader: A freight forwarder that provides cargo to be included in a consolidated 
+shipment managed by a master co-loader. 
+ 
+  
+--- Page 9 ---
+  
+  
+ 
+9 
+ 
+3.2 Required Documents 
+The table below outlines the roles, the documents they are required to file under the NAIC MPCI 
+program, and their descriptions. 
+ 
+Role[1] Required Document   
+Shipping Line [2] 
+The bill of lading issued by the shipping line, which can be: 
+ Master Bill of Lading: For consolidated shipments. 
+ Direct Bill of Lading: Issued directly to the shipper without 
+consolidation. 
+Freight Forwarder [3] 
+The house bill of lading  issued for standard consolidation 
+scenarios where shipments are consolidated from  multiple 
+shippers. 
+ 
+Master Co-loader [3] 
+  
+A bill of lading issued by the master co -loader in co-loading 
+scenarios (see section 6.1). It serves as a house bill from the 
+shipping line’s perspective and as a master bill from the sub co-
+loader’s perspective. 
+Sub Co-loader [3] 
+The house bill of lading issued by the sub co-loader in co-loading 
+scenarios (see section 6.1). Represents a  portion of the cargo 
+consolidated under a master co-loader’s bill. 
+Table 1 Required Documents per Role 
+Notes: 
+[1] Delegation of filing responsibilities is possible for freight forwarders, master co-loaders, sub-
+co-loaders and shipping lines, as outlined in the delegation process (Section 4.6). 
+[2] The bills of lading filed by the shipping line or delegated shipping agent will be referred to in 
+this document as shipping line bill of lading. 
+[3] The bill s of lading filed by the freight forwarder, master co -loader or sub -co-loader will be 
+referred to in this document as freight forwarder bills of lading. 
+ 
+  
+--- Page 10 ---
+  
+  
+ 
+10 
+ 
+3.3 Filing Timing 
+The table below defines the required submission timing for each role and document type. 
+ 
+Role  Document Type Cut-off Time  
+Shipping Line 
+Master Bill of Lading 6 Hours Pre-load 
+Direct Bill of Lading 24 Hours Pre-load 
+ 
+Freight Forwarder or Sub-
+Co-loader 
+  
+Lowest Level House Bill of Lading 24 Hours Pre-load 
+Master Co-loader Master Co-loader Bill of lading 6 Hours Pre-load 
+Table 2 Submission Timing per Role 
+3.4 Inclusions 
+This section specifies the cargo and movement types covered within the current scope  of the 
+program. The following are included: 
+ Import, Transit and Transshipment (FROB) Shipments:  These are the shipments’ 
+movement types required within the MPCI implementation scope. However, FROB filings 
+are required only from the shipping line. 
+ Containerized maritime cargo: Only the containerized cargo is included within the scope. 
+This includes both full container loads (FCL) and less than container loads (LCL). 
+ 
+3.5 Exclusions 
+This section specifies the exclusions within the current implementation scope, ensuring that all 
+parties have a clear understanding of the requirements . These exclusions may be included in 
+future phases. The excluded aspects are as follows: 
+ Export Shipments: Shipments that are being exported out of the UAE are excluded from 
+the scope. 
+ Non-Containerized maritime cargo: Cargo that is not transported in containers, such as 
+bulk cargo (breakbulk, Liquid bulk) and Ro-Ro shipments are excluded from the scope. 
+ Wooden Vessels: Wooden Vessels are excluded from the MPCI Implementation for the 
+current phase. 
+ Empty Containers: Containers that are being transported without any cargo inside are 
+excluded from the scope. 
+ Crew’s effects: Crew’s belongings on the vessel are not included within the scope. 
+ 
+ 
+--- Page 11 ---
+  
+  
+ 
+11 
+ 
+3.6 Integration Requirements 
+This section explains the method and format for filing the required documents with the MPCI 
+system. Filers in general submit documents through Technology Service Providers, while shipping 
+lines have the option to file either through Technology Service Providers or direct integration 
+with the MPCI system. 
+  
+Technology Service Providers and directly integrated shipping lines will electronically transmit 
+shipment data using an electronic message format based on the United Nations rules for 
+Electronic Data Interchange for Administration, Commerce, and Transport (UN/EDIFACT) 
+standards. The message specifications are tailored to meet unique MPCI requirements, as 
+outlined in the 'MPCI Message Implementation Guide (MIG)’ reference document [1]. Filers are 
+responsible for transmitting Shipping Line and Freight Forwarder Bill of Lading data  depending 
+on the party’s responsibility, while NAIC will transmit validation and assessment response to the 
+filer. 
+ 
+Filers should submit the Shipping Line  and Freight Forwarder Bill of Lading data using the CUSCAR 
+message. Upon receiving the message  by the MPCI system, the message will be validated 
+according to the MPCI validation rules outlined in the 'MPCI - Message Implementation Guide 
+(MIG)' reference document [1]. Subsequently, NAIC will send a validation response message—an 
+electronic receipt will be sent to the filers using the CONTRL message. In case of rejection, t his 
+message will include relevant error codes corresponding to the encountered issues, referring to 
+the error code list outlined in the 'MPCI CONTRL Responses – Error Codes List ' reference 
+document [3]. In case of acceptance, the message will include a confirmation of submission which 
+indicates successful processing of the message. 
+ 
+The diagram below shows a high-level flow of messages between the filers and the MPCI system. 
+ 
+ 
+Figure 2 MPCI Messages Flow 
+ 
+
+--- Page 12 ---
+  
+  
+ 
+12 
+ 
+After the message validation and MPCI assessment , NAIC will transmit a CUSRES message, 
+providing one of the following assessment response types: Assessment Complete, Assessment 
+Complete with Warnings, R equest for Information or attachment, Do Not Load, Pending Sub -
+Filing or Filing Expiry (See section 4.5). 
+ 
+  
+--- Page 13 ---
+  
+  
+ 
+13 
+ 
+4 MPCI Business Processes 
+4.1 MPCI Business Process Overview  
+This se ction outlines the MPCI program ’s business process workflow. It covers the MPCI 
+onboarding process, f iling process, message validation process and assessment response 
+process, along with the associated responsibilities and timing requirements.  For more details 
+regarding the technical message specifications refer to ‘MPCI - Message Implementation Guide 
+(MIG)’ reference document [1]. 
+ 
+The following process diagram and documentation describe the MPCI business process overview. 
+ 
+ 
+Figure 3 MPCI Business Process Overview 
+ 
+Process Step Details  
+MPCI Onboarding The MPCI participants ‘Filers’ must register on NAIC portal to 
+obtain a unique MPCI Party ID to be able to start the MPCI filing 
+process and submit MPCI filing. For more information refer to 
+‘MPCI – Registration & Onboarding Guide’, reference document 
+[2]. 
+MPCI Filing The MPCI Filing process is triggered by a filer submitting B/L 
+information as early as possible . (For responsibilities and timing 
+requirements s ee sections 3.2 and 3.3Error! Referen ce source 
+not found.).  
+Message Validation The system validates submitted messages against supported 
+message formats. 
+Shipment Assessment The submitted message is used for advance assessment of the 
+shipment’s data.  
+Assessment Response NAIC to send a response from the system to the filer based on the 
+shipment assessment result. 
+Table 3 MPCI Filing Business Process Details 
+  
+
+--- Page 14 ---
+  
+  
+ 
+14 
+ 
+4.2 MPCI Onboarding Process 
+The MPCI onboarding process ensures seamless integration and compliance with the program’s 
+requirements. This process involves a structured series of steps, including registration on NAIC 
+portal, technical onboarding and data exchange capability verification.  
+While the portal is not used to submit filings, it is used for onboarding and registration and 
+provides additional functionalities to support filing processes, including: 
+ Filing Status Monitoring: Liable shipping lines and freight forwarders can track the status 
+of their filings or those submitted on their behalf by delegated entities. 
+ Multi-level Filing Status : Shipping lines or master co -loaders can view high -level filing 
+assessment statuses of their sub co-loaders or consolidating freight forwarders, allowing 
+them to monitor progress before receiving the final assessment status of their own filings. 
+For detailed instructions on the onboarding process and NAIC portal registration, refer to the 
+“MPCI – Registration & Onboarding Guide” reference document [2]. 
+ 
+Visit the NAIC portal at https://naic.icp.gov.ae. 
+ 
+4.3 MPCI Filing Process 
+4.3.1 Shipping Line and Master Co-Loader Filing Process 
+This section covers shipping line, master co-loader (see section 6.1 for more details on master 
+co-loader scenarios) and shipping agent filing requirements handling either their own shipments 
+or third-party shipments. 
+ 
+ 
+Figure 4 Shipping Line and Master Co-Loader Filing Process Diagram 
+
+--- Page 15 ---
+  
+  
+ 
+15 
+ 
+Process Step Details  
+Submit B/L Message The process is triggered by a shipping line , shipping agent  or 
+master co-loader submitting B/L information  pre-loading. This 
+message can be one of the following:  
+ Submission of a new filing.  
+ Update a previous message. 
+Message Validation 
+Process 
+The message gets validated following the supported message 
+formats based on (UN/EDIFACT) standards and the MPCI 
+predefined requirements in ‘MPCI - Message Implementation 
+Guide (MIG)’ reference document [1]. This subprocess is detailed 
+in section 4.4. 
+Consolidation shipment Once the filing is accepted, the MPCI system validates the 
+shipment type, determining whether it is a direct or a 
+consolidation shipment. For a direct shipment, the process 
+moves to the next step (MPCI assessment). For a consolidation 
+shipment, the MPCI system will verify  first the Sub-Filing status 
+before proceeding as described in the below step . (see section 
+6.1 for more details on consolidation scenarios) 
+FF Sub-Filing Completed MPCI System to validate the filing of the related house B/Ls of the 
+consolidation shipment are submitted by the responsible party, 
+if the house B/Ls filing is complete then the filing will proceed to 
+the next step (MPCI assessment). 
+Otherwise, NAIC sends a response message to the shipping line, 
+shipping agent  or master co -loader as a pending sub -filing 
+response and the filing process will be held until all the house B/L 
+are submitted from the responsible freight forwarder/sub co -
+loader. 
+Freight forwarder Filing 
+Process 
+An independent process is to be triggered once the freight 
+forwarder/master co -loader starts submitting B/Ls pre -loading. 
+The shipping line process will depend on the completeness of the 
+freight forwarder filing process and may impact the Master B/L 
+final assessment.  The subprocess is illustrated in the next sub-
+section. (See Section 4.3.2). 
+Send PSF Message A Pending Sub-Filing response will be sent to notify the shipping 
+line that the party responsible  (FF/Sub Co -loader) has not yet 
+completed the submission of the shipments’ B/Ls. The PSF 
+response is a result of the FF Sub-filing Completed stage above 
+as “No”. 
+Expiry Stage: If the PSF response is sent and the responsible party 
+(FF/Sub Co -loader) fails to provide the required information 
+within the specified time frame determined by the MPCI system, 
+--- Page 16 ---
+  
+  
+ 
+16 
+ 
+the filing will expire, and the submission will be marked as 
+incomplete. In this case  a re-submission of the shipment data is 
+required to restart the filing process. 
+Message Validation 
+Process 
+The filer will validate the response message received from NAIC 
+against the supported message format.  This subprocess is 
+described in more detail in the section 4.4. 
+In case the message is invalid,  the filer should communicate 
+offline with NAIC to discuss the resolution options for the error. 
+MPCI shipment 
+assessment 
+After the acceptance and verification of the filing completeness, 
+the MPCI system will begin assessing the risk and compliance of 
+the provided information. 
+Assessment Result MPCI assessment has three possible outcomes, but only one of 
+these results will be provided at a time. Filers will not receive 
+multiple results in the same response. 
+Send RFI Message Request for Information or Attachment (RFI) Indicates that 
+additional information is required to b e submitted, or a 
+supporting document needs to be shared with NAIC. 
+In the event of  additional information is requested, the filer 
+should submit a n updated version of the message with the 
+required information. Otherwise, in the event of  a supporting  
+document is requested, the filer should provide the required 
+documents to NAIC using the attachment service. Refer to ‘MPCI 
+- Message Implementation Guide (MIG)’, reference document [1] 
+[Section 6]. 
+Expiry Stage: If the Request for Information or Attachment (RFI) 
+response is sent and the filer fails to provide the required 
+information within the specified time frame, the filing will expire, 
+and the submission will be marked as incomplete . In this case a 
+re-submission of the shipm ent data is required to restart the 
+filing process. 
+Send ACT/ACW Message Assessment Complete: Indicates that shipment is approved for 
+transport to the UAE. 
+Assessment Complete with Warning : Indicates that the 
+shipment is approved for transport to the UAE. However, there 
+are comments on the information submitted that need attention 
+in future filings. (e.g. data quality issue). 
+Send DNL Message Do Not Load : Indicates that the shipment is not approved for 
+transport to the UAE. 
+Table 4 Shipping Line Filing Process Details 
+--- Page 17 ---
+  
+  
+ 
+17 
+ 
+4.3.2 Freight Forwarder / Sub Co-loader Filing Process 
+The following process diagram and documentation describes the freight forwarder/sub co-loader 
+filing process used when the filer submits a House Bill of lading. 
+ 
+ 
+Figure 5 Freight Forwarder / Sub Co-loader Filing Process Diagram 
+ 
+Process Step Details  
+Submit B/L Message The process is triggered by a freight forwarder/sub co -loader 
+submitting B/L information pre-loading. This message can be one 
+of the following:  
+ Submission of a new filing.  
+ Update a previous message. 
+Message Validation 
+process 
+The message gets validated following the supported message 
+formats based on (UN/EDIFACT) standards and the MPCI 
+predefined requirements in ‘MPCI Message Implementation 
+Guide (MIG )’, reference document  [1]. This subprocess is 
+described in more detail in section 4.4. 
+MPCI shipment 
+assessment 
+After the acceptance of the filing, the MPCI system will begin 
+assessing the risk and compliance of the information provided in 
+the message. 
+Assessment Result MPCI assessment has three possible outcomes, but only one of 
+these results will be provided at the same time . Filers will not 
+receive multiple results in the same response. 
+Send RFI Message Request for Information or Attachment (RFI) indicates that 
+additional information is requested to be submitted, or a 
+supporting document needs to be shared with NAIC. 
+If additional information is requested, the filer should submit an 
+updated version of the message that includes the required 
+details. Otherwise, if supporting document is required, the filer 
+
+--- Page 18 ---
+  
+  
+ 
+18 
+ 
+should provide the required documents to NAIC  using the 
+attachment service . Refer to ‘MPCI - Message Implementation 
+Guide (MIG)’, reference document [1] [Section 6]. 
+Expiry Stage: If the Request for Information or Attachment  (RFI) 
+response is sent and the party responsible  (FF/Sub Co -loader) 
+fails to provide the required information within the specified time 
+frame, the filing will expire, and the submission will be marked as 
+incomplete. In this case a re-submission of the shipment data is 
+required to restart the filing process. 
+Validate Response 
+Message 
+The filer will validate the response message received from NAIC 
+against the supported message format.  In case the message is 
+invalid, the filer should communicate offline with NAIC to discuss 
+the resolution options for the error (see section 4.4). 
+Send ACT/ACW Message Assessment Complete  indicates that the shipment is approved 
+for transport to the UAE. 
+Assessment Complete with Warning indicates that the shipment 
+is approved for transport to the UAE. However, there are 
+comments on the information submitted that need attention  in 
+future filings. (i.e. data quality issue). 
+Sub-Process Validation In addition to providing an Assessment Complete response to the 
+freight forwarder, the MPCI system to validate the availability of 
+all related houses (B/Ls) associated with the shipment before 
+responding to the shipping line's filing. 
+Shipping Line and Master 
+Co-Loader Filing process 
+The process is initiated when a shipping line submits the Master 
+B/L information for the shipment. 
+Note: The filing of House B/Ls may impact the assessment of the 
+Master B/L  assessment. Conversely, in rare cases, Master B/L 
+may affect the associated House B/Ls  assessment. (see section 
+6.1.4 for more details) 
+Send DNL Message Do Not Load  indicates that the shipment is not approved for 
+transport to the UAE. 
+Table 5 FF/Sub Co-loader Filing Process Details 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+--- Page 19 ---
+  
+  
+ 
+19 
+ 
+ 
+4.4 Message Validation  
+The following process diagram and documentation describes message validation subprocess for 
+each message exchanged between Sender’s and Receiver’s systems. 
+ 
+ 
+Figure 6 Message Validation Process 
+ 
+Process Step Details  
+Parent Process The process is triggered by the sender’s system transmitting a 
+message to another system as referenced in the parent processes 
+(Shipping Line and Master -Co-loader Filing Process and Freight 
+Forwarder / Sub Co-loader Filing Process). 
+Validate Message The receiver’s system validates submitted message against 
+supported message formats (UN/EDIFACT). 
+Send CONTRL Message 
+(Accepted) 
+If the message is valid, an acknowledgement message will be 
+transmitted to the sender to confirm successful receipt  of the 
+original message. 
+Parent Process  The primary MPCI business process es (Shipping Line and Master 
+-Co-loader Filing Process and Freight Forwarder / Sub Co-loader 
+Filing Process) will proceed following the successful validation of 
+the submitted filing.  
+
+--- Page 20 ---
+  
+  
+ 
+20 
+ 
+Send CONTRL Message 
+(Rejected) 
+If the message does not conform to the supported message 
+specifications, a response message is transmitted to the sender 
+to indicate the message was invalid. 
+Validate Response For any CONTRL message transmitted by a receiver, t he sender 
+must validate the response message against the supported 
+message format. 
+Analyze Error If the message passes the validation, the sender should review 
+the errors reported by receiver. 
+Fix & Resubmit Error The original message sender should fix the message based on the 
+response received through the response message and resubmits 
+an updated message version (B/L). 
+Discuss the issue with 
+NAIC offline 
+If the receiver  response message is invalid, the sender should 
+communicate with the receiver offline to discuss the resolution 
+options for the error. 
+Table 6 Message Validation Process Details 
+  
+--- Page 21 ---
+  
+  
+ 
+21 
+ 
+4.5 MPCI Shipment Assessment 
+As for the MPCI business process, all received messages containing shipment data, will undergo 
+a risk and compliance assessment by NAIC, before permitting cargo to be loaded. 
+ 
+Based on the results of the assessment, the MPCI system will generate one of the following 
+response types mentioned in the table below. 
+ 
+Response  Description  
+Assessment 
+Complete 
+This indicates the filing has been reviewed, and all the information provided has 
+been verified as correct and complete.  The filing party can continue with the 
+loading and shipping process. 
+Assessment 
+Complete 
+with 
+Comments 
+This indicates the filing is approved, however there are additional comments 
+provided by NAIC. These comments relate to non -critical issues that do not 
+prevent the shipment from proceeding but should be considered for future 
+filings. Loading of shipment on vessel is approved , but the filing party shoul d 
+review the comments for data compliance or operational improvement. 
+Request for 
+Information 
+or 
+Attachment 
+This indicates that the information submitted was incomplete, inaccurate or that 
+additional information is required to complete the assessment. It could be that 
+critical data elements were vague, or attachments (such as invoices, certificate 
+of origin, or packing list) are needed for further verification.  The filing party 
+should submit a new message version including the requested information or 
+provide the attachment separately using the attachment service. The shipment 
+cannot proceed until the requested data is provided, and a re -assessment is 
+made based on additional information. 
+Do Not 
+Load 
+This indicates that the shipment is not approved for loading due to significant 
+issues or concerns, such as security risks, incorrect or incomplete 
+documentation, or legal violations. Correspondingly, shipment is flagged, and 
+loading is prohibited until fu rther notice. The responsible party should address 
+the issues raised in the assessment immediately. And the shipping line must not 
+load the shipment onto vessel. 
+Pending 
+Sub Filing 
+This indicates that the filing is incomplete because the shipment’s House Bills of 
+Lading (B/Ls) have not yet been submitted by the responsible party, such as a 
+sub co -loader or freight forwarder. The filing cannot proceed without the 
+complete filing. The shipping line or master co -loader should notify the House 
+Bills of Lading owner to complete the sub -filing by submitting the necessary 
+House B/Ls before the filing process can continue. 
+Filing Expiry This indicates that the filing has expired, typically because required actions (such 
+as responding to requests for additional information, or completing sub -filing) 
+were not completed within 200 days . An expired filing should require re -
+submission of shipment data. 
+Table 7 MPCI Assessment Response details 
+--- Page 22 ---
+  
+  
+ 
+22 
+ 
+4.6 Delegation Process 
+NAIC allows delegation of filing responsibilities for both shipping lines and freight forwarders in 
+specific scenarios. This section outlines the delegation process and requirements for each role. 
+ 
+4.6.1 Delegation for Freight Forwarders 
+Freight forwarder delegation offers several options to simplify the filing process, enable earlier 
+submission, and ensure compliance with NAIC requirements: 
+ Local freight forwarders can delegate filing to overseas freight forwarders. 
+ Master co-loaders can delegate filing to sub co-loaders. 
+ Sub co-loaders can delegate filing to master co-loaders. 
+ 
+The following diagram illustrates the freight forwarder delegation process: 
+ 
+Figure 7 Delegation for Freight Forwarders 
+ 
+Role Process Step Details 
+Liable Freight 
+Forwarder 
+ 
+Register The freight forwarder must register on the NAIC 
+portal by following the steps outlined in the ‘MPCI 
+– Registration & Onboarding Guide ’, reference 
+document [2]. 
+Upon completing the  registration, they will 
+receive their MPCI Party ID (see section 5.3). 
+Delegate to other 
+freight forwarders 
+During registration, the freight forwarder has the 
+option to: 
+ Enable delegation to any other  forwarder 
+by default. 
+ Delegate specific freight forwarders. 
+ Disable delegation entirely. 
+
+--- Page 23 ---
+  
+  
+ 
+23 
+ 
+Regardless of the method, the freight forwarder 
+must manually share their MPCI Party ID with the 
+delegated freight forwarder to enable filing. 
+Delegated 
+Freight 
+Forwarder 
+Register Local freight forwarders must register on the NAIC 
+portal. Overseas freight forwarders are required 
+to register only if delegated by a local freight 
+forwarder, as outlined in the ‘MPCI – Registration 
+& Onboarding Guide’, reference document [2].  
+Upon completing the registration, the delegated 
+freight forwarder will receive their own MPCI 
+Party ID. 
+File – Set MPCI Party 
+ID of Local FF 
+Submit filings according to the MPCI Filing Process 
+(see section 4.3). The delegated freight forwarder 
+must provide the MPCI Party ID of the l iable 
+freight forwarder (shared offline)  in addition to 
+their own. 
+Table 8 Freight Forwarders Delegation Process 
+ 
+  
+--- Page 24 ---
+  
+  
+ 
+24 
+ 
+4.6.2 Delegation to Shipping Agents 
+Shipping lines can  delegate liability, filing responsibilities , or both to local or overseas shipping 
+agents in the following cases: 
+ Liability Delegation: If the shipping line does not have local representation in the UAE, 
+they may delegate liability to shipping agents, with a maximum of one agent per emirate. 
+The shipping line can still manage filing directly if integrated with NAIC. 
+ Filing Delegation:  If the shipping line is not directly integrated with NAIC, they may 
+delegate filing to one or more local or overseas shipping agents, while remaining liable 
+for compliance. 
+ Both Liability and Filing Delegation:  If the shipping line has neither local representation 
+in the UAE nor direct integration with NAIC, they can delegate both liability and filing to 
+one or more shipping agents. 
+ 
+The following diagram illustrates the delegation to shipping agents process: 
+ 
+Figure 8 Delegation to Shipping Agents 
+ 
+ 
+Role Process Step Details 
+Shipping Line 
+ 
+Register The shipping line must r egister on the 
+NAIC portal by following the steps 
+outlined in the  ‘MPCI – Registration & 
+Onboarding Guide’, reference document 
+[2]. 
+Upon completing the registration, they 
+will receive their MPCI Party ID (see 
+section 5.3). 
+Specify Delegation Scope States during registration whether 
+liability, filing, or both will be delegated. 
+
+--- Page 25 ---
+  
+  
+ 
+25 
+ 
+Liability can be assigned to a maximum of 
+one agent per emirate, while filing may 
+be handled by one or more agents. 
+Shipping Agent Register The shipping agent is required to register 
+on the NAIC portal only if they are 
+delegated to file on behalf of a shipping 
+line, following the steps outlined in the 
+‘MPCI – Registration & Onboarding 
+Guide’, reference document [2].  
+Upon completing the registration, they 
+will receive their own MPCI Party ID. 
+File – Set MPCI Party ID of 
+Shipping line 
+Submits filings according to the MPCI 
+Filing Process (see section 4.3). Provides 
+the MPCI  Party ID of the shipping line. 
+The complete list of shipping line MPCI 
+Party IDs is available on the NAIC portal.  
+Table 9 Delegation to Shipping Agents Process 
+ 
+4.6.3 NAIC Responses in Cases of Delegation 
+In cases of d elegation, NAIC will issue responses primarily to the entity performing the filing 
+(delegated freight forwarder or shipping agent). However, the delegating entity ( liable freight 
+forwarder or shipping line) can view all filings submitted on their behalf, a long with their MPCI 
+shipment assessment s tatus, through the NAIC portal.  NAIC may also share a copy of the 
+assessment results with other involved entities to facilitate and streamline trade operations. 
+  
+--- Page 26 ---
+  
+  
+ 
+26 
+ 
+5 MPCI Business Data Requirements 
+This section covers the key business data elements requirements for MPCI filing process, 
+highlighting the essential elements needed to initiate MPCI submissions successfully.  
+ 
+As mentioned in the program overview, the main trade documents in the program scope are the 
+Shipping Line’s Bill of lading and Freight Forwarder’s Bill of lading. Correspondingly, the essential 
+data elements are derived from the Bill of Lading details, along with a few additional data 
+requirements. 
+ 
+  
+--- Page 27 ---
+  
+  
+ 
+27 
+ 
+5.1 Business Data Elements 
+The table below repres ents the mandatory business data elements for the filing process. The 
+detailed specifications and full set of data along with the details for each elements including 
+formats, validations, and technical guidelines, are documented in the ‘Message Implementation 
+Guide (MIG)’, reference document [1]. 
+ 
+Data Element Description 
+Bill of Lading 
+Number 
+Unique reference number assigned to the Bill of Lading. 
+MPCI Party ID Unique identifiers assigned to each economic operator by NAIC. This ID is to 
+be used to indicate the liable parties for the filing. (see section 5.3) 
+Negotiable / 
+Non-Negotiable 
+Flag 
+Indicates whether the Bill of Lading is negotiable or non-negotiable. 
+Cargo 
+Movement 
+Type 
+Whether this is an import, transit, transshipment or FROB shipment. 
+Parties 
+Responsible for 
+Filing Related 
+Bills 
+Further details on this data element and its usage will be provided in section 
+6.1. 
+Party Liable for 
+Filing 
+The MPCI Party ID of the party is liable  for filing (e.g. the local freight 
+forwarder MPCI Party ID). 
+This is required only in the case of delegation. 
+Number of 
+house bills[1] 
+The number of house bills under a consolidation bill. 
+Shipper 
+Name/Address 
+ 
+The shipper’s name, address on the bill of lading. 
+Consignee 
+Name/Address 
+The consignee's name and address on the bill of lading. (see section 5.2) 
+Forwarding 
+Agent Name 
+The Forwarding (Shipper’s) Agent name. 
+Voyage 
+Number[2] 
+Unique identifier assigned to a specific voyage of a vessel. 
+Shipping Line 
+SMDG Code[4] 
+Unique identifier assigned to shipping line  by the SMDG (Ship Message 
+Design Group). 
+Vessel Name[2] Vessel name. 
+--- Page 28 ---
+  
+  
+ 
+28 
+ 
+Vessel IMO 
+Number[2] 
+Unique identifier assigned to each vessel. 
+Last foreign 
+port before 
+UAE. [2] 
+ 
+The Last foreign port before arriving to the first UAE port. 
+First port of 
+arrival in UAE. 
+[2] 
+The first UAE port where the vessel initially arrives. 
+Place of 
+Receipt[1] 
+The place at which the Goods are received by the Shipping line for carriage. 
+Port of loading The port at which the Goods are loaded on the Vessel. 
+Port of 
+Transshipment 
+The ports inside or before the UAE where the shipment is transferred from 
+one vessel to another, if applicable. 
+Port of 
+Discharge 
+The port where shipment will be discharged from the vessel and will not be 
+transshipped onto another vessel. 
+Place of 
+Delivery[1] 
+The final destination where a shipment of goods is transferred to the 
+consignee. 
+Estimated Time 
+of Arrival[2] 
+Estimated time of arrival of the goods in the UAE. 
+Estimated Time 
+of Departure[2] 
+Estimated time of Departure of the goods in the last foreign port  before 
+UAE. 
+Container 
+Number 
+The unique identifier assigned to a shipping container listed on a Bill of 
+Lading. 
+Container Type 
+& Size 
+The Container type and size used to transfer the goods. 
+Full or Empty 
+Container 
+An indicator whether the container is fully or partially loaded. 
+Seal Number  Unique serial number assigned to each seal on the container. 
+Goods 
+Description 
+Detailed description of the items in a cargo , required for non-consolidated 
+cargo. 
+Package Type/ 
+Quantity 
+The type of packages being used to carry the goods and the quantity of 
+packages used. 
+Goods Weight The total weight of the goods carried, including all packaging but excluding 
+the tare weight of the container. 
+Container 
+Goods 
+Placement 
+This specifies the goods items assigned to each container. 
+HS Code Standardized numerical classification used to identify and categorize goods 
+in international trade, required for non-consolidated cargo. 
+Table 10 Business Data Elements 
+--- Page 29 ---
+  
+  
+ 
+29 
+ 
+Notes: 
+[1] This field is required for forwarder’s bills only.  
+[2] This field is required for shipping line’s bill only.  
+--- Page 30 ---
+  
+  
+ 
+30 
+ 
+5.2 Handling Consignee Data Element Scenarios 
+This section outlines guidelines for providing Consignee Name and Address under different bill of 
+lading scenarios. 
+ Non-Negotiable Bills: 
+o This consignee data element must always be provided. 
+ Negotiable Bills: 
+o Blank Endorsement:  Leave the consignee data element empty. Do not use 
+placeholders such as "To Order." 
+o To Order of a Bank:  Leave the consignee dat a element empty and provide the 
+bank’s name in the “Payer on behalf of the importer” field. 
+o To Order of the Shipper or a Third Party:  Enter the name of the shipper or the 
+designated third party in the consignee data element. 
+  
+--- Page 31 ---
+  
+  
+ 
+31 
+ 
+5.3 MPCI Party ID – Definition and Usage 
+The MPCI Party ID is a unique identifier assigned by NAIC to the filers, including shipping lines, 
+shipping agents, NVOCCs, and freight forwarders. It is used for identification, enable delegation, 
+and link filings across multiple layers of the shipping process. 
+ 
+5.3.1 MPCI Party ID usage 
+The table below outlines the different scenarios where the MPCI Party ID is required during the 
+filing process. 
+Scenario NAIC Requirement 
+All Filings The filer must provide  their MPCI Party ID in each 
+submission to link the filing to their entity. 
+Delegation - Local to Overseas 
+Freight Forwarders 
+The overseas freight forwarder must reference the MPCI 
+Party ID of the local forwarder. 
+Delegation - Shipping Lines to 
+Shipping Agents 
+The shipping agent must reference the MPCI Party ID of the 
+shipping line. 
+Consolidation and Co-loading The shipping line and each freight forwarder/ Master Co -
+loader/Sub Co-loader must include the MPCI Party IDs of 
+relevant parties in the filing chain. 
+For more details, refer to section 6.1. 
+Table 11 MPCI Party ID Usage 
+ 
+5.3.2 MPCI Issuance and Sharing 
+This is how each party receives and manages their MPCI Party ID: 
+ Freight Forwarders and NVOCCs  receive their MPCI Party ID during the 
+onboarding/registration process. For more details , refer to the ‘MPCI – Registration & 
+Onboarding Guide’, reference document [2]. 
+ Shipping lines' MPCI Party IDs for all the shipping lines are publicly available on the NAIC 
+portal. 
+ 
+Note: MPCI Party IDs for Freight forwarders will not be publicly listed. 
+For consolidation, co-loading, and delegation between freight forwarders, MPCI Party IDs must 
+be shared internally between the parties involved.  
+ 
+  
+--- Page 32 ---
+  
+  
+ 
+32 
+ 
+6 Special Business Scenarios 
+6.1 Consolidation and Co-loading 
+Consolidation and Co-loading are standard industry practices involving the handling of shipments 
+from multiple parties under a single consignment. 
+ 
+6.1.1 NAIC Requirements Overview 
+To ensure full visibility and traceability, NAIC requires the submission of all bills of lading issued 
+throughout the shipping process in consolidation and co-loading scenarios. This includes bills of 
+lading issued by shipping lines and  freight forwarders acting as master co -loaders or sub co -
+loaders. Freight forwarders may also be allowed to submit filings on behalf of other freight 
+forwarders within the hierarchy. Further details are outlined in section 6.1.3.2. 
+ 
+The diagram below illustrates a multi-layer shipping scenario to demonstrate NAIC requirements.  
+ A shipping line transports cargo for an NVOCC (master co -loader) and issues the master 
+bill of lading BL 1.  
+ The NVOCC consolidates shipments from a shipper and a freight forwarder . It issues  BL 
+1.1 which acts as a house bill in relation to the shipping line and as a master bill in relation 
+to the freight forwarder. It also issues house bill BL 1.2 for shipper A.  
+ The freight forwarder ( house co-loader) further consolidates shipments from two 
+additional shippers, and issues corresponding house bills BL 1.1.1 and BL 1.1.2. 
+ 
+Figure 9 Consolidation and Co-loading Scenario 
+ 
+
+--- Page 33 ---
+  
+  
+ 
+33 
+ 
+6.1.2 Shipping Line Filing 
+For the example illustrated in  the diagram, the shipping line is required to submit the shipping 
+line bill of lading ‘BL 1’. The bill must include the MPCI Party ID for the NVOCC, who is responsible 
+for submitting the next layer of house bills of lading. 
+ 
+6.1.3 Freight Forwarder Filing 
+In th e illustrated example, normally each of the NVOCC (master co -loader) and the freight 
+forwarder (sub co-loader) is responsible for submitting the bills of lading they issue. However, for 
+flexibility, NAIC also provides options for delegation. 
+ 
+6.1.3.1 Normal Filing Scenario 
+In the normal filing scenario, each entity submits the bills of lading they issue. 
+NVOCC: 
+ Files ‘BL 1.1’ as a consolidated bill, indicating that child bills ‘BL 1.1.1’ and ‘BL 1.1.2’ will 
+follow. The NVOCC provides the freight forwarder MPCI Party ID as the expected filer for 
+these child bills. 
+ Files ‘BL 1.2’ as a non-consolidation bill, indicating that no further child bills will be filed. 
+ References the shipping line’s bill of lading ‘BL 1’ as the parent bill in both filings and 
+specifies the shipping line’s MPCI Party ID as the expected filer for it. 
+Freight Forwarder: 
+ Files ‘BL 1.1.1’ and ‘BL 1.1.2’ as non-consolidation bills, indicating that no further child 
+bills will be filed. 
+ References the NVOCC’s bill of lading ‘BL 1.1’ as the parent bill in both filings and specifies 
+the NVOCC’s MPCI Party ID as the expected filer for it. 
+ 
+ 
+6.1.3.2 Delegation Options 
+For flexibility, NAIC allows delegation of filing responsibilities under the following conditions: 
+ 
+NVOCC Files on Behalf of the Freight Forwarder: 
+ The NVOCC files ‘BL 1.1.1’ and ‘BL 1.1.2’ on behalf of the freight forwarder. 
+ While filing, the NVOCC indicates it is filing on behalf of the freight forwarder by specifying 
+the freight forwarder MPCI Party ID as the issuer of these bills. 
+Freight Forwarder Files on Behalf of the NVOCC: 
+ The freight forwarder files ’BL 1.1’ on behalf of the NVOCC. 
+ While filing, the freight forwarder indicates it is filing on behalf of the NVOCC  by setting 
+the MPCI party ID of the NVOCC as the issuer of this bill. 
+ 
+For detailed instructions and specific data elements used in each scenario , please refer to  the 
+‘MPCI - Message Implementation Guide (MIG)’, reference document [1]. 
+--- Page 34 ---
+  
+  
+ 
+34 
+ 
+6.1.4 NAIC Assessment Responses 
+NAIC issues responses at  both the master bill of lading and house bill of lading levels; these 
+responses are coordinated within NAIC system to ensure consistency across all layers. 
+ 
+The diagram below shows the high-level impact of master bill of lading assessment on house bills 
+of lading, and vice versa. Further details are provided in the following subsections. 
+ 
+Figure 10 Master and Houses Levels Assessment Responses 
+ 
+6.1.4.1 Assessment Complete (ACT) 
+ ACT on House Bill : Acceptance for loading  of a house bill does not imply acceptance of 
+the master bill for loading. The master bill remains pending until all associated house bills 
+receives ACT. 
+ ACT on Master Bill: If NAIC issues an ACT on the master bill, it means all underlying house 
+bills have received ACT and are clear for loading. 
+ 
+6.1.4.2 Do not load (DNL) 
+ DNL on House Bill 
+o A DNL issued for a house bill will cascade to the master bill, meaning both house 
+and master bills receive DNL. 
+o Other house bills under the same master are not affected . The freight forwarder 
+can remove the DNL house and re-consolidate the remaining houses under a new 
+master bill. 
+  
+
+--- Page 35 ---
+  
+  
+ 
+35 
+ 
+ DNL on Master Bill 
+o A DNL issued on the master bill cascades to all associated house bills, blocking the 
+entire shipment from loading. 
+6.1.4.3 Request for Information (RFI) 
+ RFI on Master Bill 
+o RFI issued at the master bill level will not cascade to underlying house bills. 
+o Freight forwarders can receive ACT at the house level, but the master bill cannot 
+proceed with loading until the shipping line resolves the RFI and receives ACT. 
+ RFI on House Bill 
+o An RFI issued for a house bill keeps the master bill pending until all house bill RFIs 
+are cleared. 
+o The shipping line  will not be explicitly notified of the house -level RFI but will 
+remain pending until the house RFI is responded to by the freight forwarder. 
+ 
+6.1.4.4 Pending Sub Filing (PSF) 
+ PSF is issued to the shipping line  or master co -loader to indicate that one or more 
+associated house bill filings are missing. 
+ The shipping line/master co-loader is encouraged to contact frei ght forwarder/sub co-
+loader directly to expedite the missing filings. 
+ 
+6.1.4.5 Filing Expiry (EXP) 
+Filing expiration applies across all layers, resulting in expiry for both master and house bill filings.  
+ 
+ 
+6.1.5 Coordination and Linking of Filing 
+Effective filing requires close coordination and communication between the shipping line, master 
+co-loaders, and sub co -loaders to ensure accuracy and compliance. This collaboration is 
+necessary to: 
+ Ensure Consistency and Avoid Duplication: Prevent duplicate filings by ensuring that only 
+the designated party submits each bill of lading (e.g., if the master co -loader files a bill, 
+the sub co-loader does not file the same bill). 
+ Exchange MPCI Party IDs:  Share MPCI Party IDs to accurately specify the entities 
+responsible for filing related bills. 
+ Share Bill of Lading Numbers: Communicate bill of lading numbers to correctly link filings 
+across different layers. 
+ Coordinate on Assessment Results:  Align on the appropriate actions based on 
+assessment responses (e.g., addressing a DN L by removing the affected house bill and 
+issuing a new master bill for the remaining shipment). 
+ 
+Close cooperation helps ensure the filing process runs smoothly and meets NAIC requirements. 
+--- Page 36 ---
+  
+  
+ 
+36 
+ 
+6.2 Updating a Bill of Lading 
+NAIC recognizes that updating a bill of  lading is a standard practice in maritime shipping. While 
+the initial filing must comply with the timelines outlined in the Filing timing section (see section 
+3.3), updates may occur at various stages until the shipment arrives in the UAE — and in some 
+cases, even after arrival. 
+NAIC expects updates to be reasonable and consistent with operational practices. 
+ 
+6.2.1 Update Scenarios 
+The following table outlines the types of updates typically encountered and the actions expected 
+from the filer: 
+Scenario Description Expected Action 
+Corrections Updates due to errors, 
+re-measurements, re-
+weighting , or inaccurate 
+data (e.g., cargo 
+description, or shipper 
+details). 
+Submit an updated version reflecting the 
+changes.  
+Endorsements 
+(Consignee 
+Change) 
+Consignee may change 
+multiple times for 
+negotiable bills through 
+endorsements at 
+different stages. 
+Submit an updated version reflecting the new 
+consignee. 
+Vessel/Voyage 
+Change 
+Updates to vessel or 
+voyage due to rerouting, 
+delays, or operational 
+changes. 
+Either cancel the existing bill of lading and 
+submit a new one, or update the same bill with 
+the revised vessel, voyage, or bill of lading 
+details. 
+Consolidation 
+and 
+Deconsolidation 
+House bills linked to one 
+master bill are 
+reassigned to another 
+during transit. 
+ Shipping line: Submit the new master 
+bill of lading. 
+ Freight forwarder: Submit an updated 
+version reflecting the new master bill. 
+Response to RFI 
+(Request for 
+Information) 
+NAIC requests updates 
+to clarify or complete 
+missing/inaccurate 
+information. 
+Submit an updated version reflecting 
+requested changes (according to the RFI 
+request). 
+Switch Bills A switch bill of lading is 
+issued to replace the 
+original, reflecting 
+changes in consignee, or 
+shipper. 
+Submit an updated version using the same or a 
+different bill of lading number. Indicat e this as 
+a switch bill update. 
+--- Page 37 ---
+  
+  
+ 
+37 
+ 
+Cancellation Full cancellation due to 
+errors, misrouting, or 
+client request.  
+Submit a cancellation request to invalidate the 
+bill of lading. 
+Split Bills A shipment under one 
+bill of lading is split 
+across vessels or 
+voyages, affecting 
+master or house levels. 
+Details on split bill handling will be covered in 
+the next section. 
+Table 12 Update Scenarios 
+ 
+6.2.2 General Considerations for Bill of Lading Updates: 
+ Submitting an updated version means making changes to an existing filing, while 
+submitting a new bill of lading creates a separate filing. The distinction is handled at the 
+technical level, as explained in the  ‘MPCI - Message Implementation Guide (MIG) ’, 
+reference document [1] [Section 3.5]. 
+ A cancelled filing cannot be updated; a new filing is required. 
+ Filers cannot submit two filings with the same bill of lading number at the same time. This 
+restriction applies to filings from the same entity, except in cases where the previous filing 
+has been canceled or has expired. 
+ Filers can only update their own filings. 
+ There are no restrictions on the data elements that can be updated, but NAIC conducts 
+data quality checks to ensure updates are reasonable. 
+ NAIC expects filers t o provide explanatory notes where necessary, ensuring justification 
+for significant updates. 
+ The scenarios listed above reflect common cases. For any other update scenario, filers 
+should follow standard practices by submitting a new version of the bill of lading reflecting 
+the required changes. 
+ 
+  
+--- Page 38 ---
+  
+  
+ 
+38 
+ 
+6.2.3 Split Bill of Lading Handling 
+A split bill of ladin g occurs when part of the cargo under a single bill of lading – whether one or 
+more containers, or a portion of a container - is separated and transported on a different vessel, 
+often due to container roll-over. The can affect: 
+ The shipping line bill only (Master Bill): Typically, in cases of direct bills of lading or when 
+the entire house bill of lading is moved to another vessel. 
+ Both shipping line and freight forwarder bills (Master and House Bills): When part of the 
+house bill, and consequently part of the master bill, is moved to another vessel. 
+ 
+Depending on their role, the shipping line and freight forwarder will need to update or issue new 
+bills to reflect the split. 
+ 
+6.2.3.1 Shipping Line Responsibilities 
+The shipping line is responsible for reflecting the split at the shipping line bill level. To minimize 
+disruption to current procedures, NAIC supports the following options based on how the shipping 
+line handles the split: 
+ Leave the original shipping line bill unchanged and submit another shipping line bill for 
+the separated cargo, referencing the original bill. 
+ Update the original shipping line bill to reflect the split and submit another shipping line 
+bill for the separated cargo, referencing the updated bill. 
+ 
+ 
+Figure 11 Shipping Line Split Scenario 
+  
+
+--- Page 39 ---
+  
+  
+ 
+39 
+ 
+6.2.3.2 Freight Forwarder Responsibilities 
+If the split affects the shipping line bill only: 
+ The freight forwarder is recommended to submit a new version of the house bill of lading, 
+referencing the split shipping line  bill to ensure consistency between the master and 
+house filings. 
+ 
+ 
+Figure 12 Freight Forwarder Split Scenario 1 
+ 
+  
+
+--- Page 40 ---
+  
+  
+ 
+40 
+ 
+If the split affects both the shipping line and freight forwarder bills, NAIC supports the following 
+options based on how the freight forwarder handles the split: 
+ Leave the original forwarder bill unchanged and submit another forwarder bill for the 
+separated cargo, referencing the original forwarder bill and the split shipping line bill. 
+ Update the original forwarder bill to reflect t he split and submit another forwarder bill 
+for the separated cargo, referencing the updated forwarder bill and the split shipping line 
+bill. 
+ 
+Figure 13 Freight Forwarder Split Scenarios 2 & 3 
+Detailed messaging requirements for each scenario are provided the ‘MPCI - Message 
+Implementation Guide (MIG)’, reference document [1] [Section 3.5.4] 
+ 
+ 
+  
+
+--- Page 41 ---
+  
+  
+ 
+41 
+ 
+6.2.4 NAIC Assessment Responses for Updates 
+The following are key considerations regarding NAIC responses when a bill of lading is updated: 
+ General Update Rules: 
+o Updating a bill of lading will re-trigger the MPCI shipment assessment. 
+o The first version of the bill of lading must be submitted before loading. There are no 
+limitations on the timing of updates afterwards; updates can be submitted even after the 
+shipment’s arrival. 
+o Any update submitted, regardless of timing, will receive one of the MPCI assessment 
+responses (DNL, ACT, ACW, RFI, PSF, or EXP); however, to close the filing, the final status 
+must be ACT, ACW, or DNL. 
+o If the filer receives a DNL post -loading, it indicates that the shipment should be 
+intercepted upon arrival. 
+o Any RFI or PSF must be resolved, and the filing final assessment should be either an ACT, 
+ACW or DNL response. 
+ Handling Sequential Updates: 
+o Not every update will receive a separate risk assessment re sponse. If an update is 
+submitted while a previous  version is under assessment, only the latest version will 
+receive a response. 
+o If different versions receive different responses (e.g., an AC for the first version and an 
+RFI for the second), the response to the most recent version should be followed. 
+o If multiple versions receive RFI responses, only the latest RFI should be considered. It will 
+include all previous requests, including attachment requirements. 
+ Filing Expiration: 
+o Any update submitted after the expiration period (200 days after the initial fili ng) will be 
+rejected by NAIC system. 
+o For example, if a filing receives an RFI that remains unresolved for 200 days, it will receive 
+an expiration response (EXP). After receiving an EXP, no further updates can be submitted 
+for the same bill of lading. 
+  
+--- Page 42 ---
+  
+  
+ 
+42 
+ 
+7 Data Quality Rules 
+Data quality is a critical aspect of NAIC MPCI program, directly impacting the efficiency of risk 
+assessments, compliance with regulatory requirements, and the overall security of the cargo 
+supply chain. High -quality data ensures that the n ecessary information is available  within the 
+required timeframe to help NAIC make informed decisions promptly. This section outlines the 
+key data quality pillars that must be adhered to during MPCI implementation. See appendix C 
+and D for data quality guidelines. 
+ 
+Data Quality Pillars Details  
+Missing Filing Missing filing indicates the failure to submit required MPCI 
+messages (e.g., Missing filing of the House Bills of Lading). 
+Inaccurate Data Elements Inaccurate data elements occur when the information provided 
+in the MPCI messages is incorrect, incomplete, or inconsistent. 
+This includes errors in data fields such as shipper and consignee 
+details, cargo descriptions, or routing information. 
+Additionally, when conditional data element validations  fail due 
+to incorrect entries. 
+Late Filing Late filing occurs when the required data submissions are not 
+performed within the required timeframes set for MPCI filings. 
+(see section 3.3). 
+Invalid Filing Invalid Filing refers to a filing that cannot be processed due to 
+technical issues, such as formatting errors, schema violations, or 
+missing required fields. For each Invalid filing a CONTRL rejecting 
+message will be sent. 
+Duplicate Filing Duplicated filings occur when the same message is submitted 
+multiple times with identical data elements, without any changes 
+or updates to the content. This may happen unin tentionally due 
+to system or process issues. 
+Table 13 Data Quality Pillars Details 
+  
+--- Page 43 ---
+  
+  
+ 
+43 
+ 
+8 Communications 
+8.1 Maintaining Up-to-Date Contact Information  
+Filers are required to keep their entities’ contact details on NAIC portal. This includes providing a 
+valid telephone number and email address.  
+ 
+8.2 Communication from NAIC  
+NAIC will use the contact details for:  
+ Communicating any assessment response that requires quick action.  
+ Communicating both planned and unplanned downtimes on NAIC’s system.  
+ Report any issues detected in the filer's system.  
+ 
+8.3 Contacting NAIC for Assistance  
+Filers may reach out to the following NAIC contacts for any inquiries related to the program:  
+ 
+NAIC 24/7 Support Email Address: mpci.inquiries@icp.gov.ae. 
+  
+--- Page 44 ---
+  
+  
+ 
+44 
+ 
+9 Business Continuity 
+The business Continuity strategies and protocols are designed  to reduce the impact on trade 
+while simultaneously upholding security measures during outages. For more information 
+regarding the business continuity process refer to ‘MPCI – Business Continuity Guide’, reference 
+document [4].  
+  
+--- Page 45 ---
+  
+  
+ 
+45 
+ 
+10 Glossary 
+ 
+Term/Abbr.  Definition  
+AC Assessment Complete 
+ACW Assessment Complete with warning 
+API Application Programming Interface 
+BOL - (B/L) Bill of Lading 
+BPMN Business Process Modelling Notation 
+Consignee The party to whom the goods are being delivered, typically the buyer or 
+recipient, and listed as the receiving party on the bill of lading. 
+Consolidation 
+Shipment 
+A shipment that is composed of multiple smaller cargoes belonging to 
+different consignees. (Contains more than one House Bill of lading) 
+CONTRL Control Message 
+CUSCAR Customs Cargo Report Message 
+CUSRES Customs Response Message 
+Direct 
+Shipment 
+A shipment that is delivered directly to the consignee without including 
+cargo belonging to other consignees, any non-consolidation shipment is 
+considered a direct shipment. 
+DNL Do Not Load 
+EXP Filing Expiry 
+FF Freight Forwarder 
+Filer The shipping line, freight forwarder, NVOCC or shipping agent who is 
+responsible for filing or the delegated GSA 
+ICAO International Civil Aviation Organization 
+NAIC National Advance Information Centre 
+NVOCC Non-Vessel Operating Common Carrier 
+Operator Generic term used in this document to refer to different entities like 
+shipping lines, freight forwarders, NVOCC and possibly others. 
+PLACI Pre-Loading Advance Cargo Information 
+PSF Pending Sub Filing 
+RFI Request for Information 
+--- Page 46 ---
+  
+  
+ 
+46 
+ 
+Shipper The party responsible for initiating a shipment, contracting with a shipping 
+line or freight forwarder to transport goods, and listed as the sender on 
+the bill of lading. 
+Shipping Line Ocean carrier that operates a vessel. 
+UN/EDIFACT The United Nations rules for Electronic Data Interchange for 
+Administration, Commerce and Transport 
+WCO World Customs Organization 
+Table 14 Glossary 
+ 
+ 
+  
+--- Page 47 ---
+  
+  
+ 
+47 
+ 
+11 References  
+ 
+The table below provides a list of documents that are relevant to the implementation of the 
+guide. These references serve as supporting materials to enhance understanding. 
+ 
+Ref No. Document Title  
+1 MPCI – Message Implementation Guide (MIG) 
+2 MPCI – Registration & Onboarding Guide  
+3 MPCI - CONTRL Response - Error Codes List  
+4 MPCI – Business Continuity Guide 
+Table 15 References 
+ 
+  
+--- Page 48 ---
+  
+  
+ 
+48 
+ 
+12 Appendices  
+12.1 Appendix A – BPMN Annotations  
+The table below describes how custom BPMN annotations are used across the document.  
+ 
+Annotation  Meaning  
+ 
+Indicates an activity that can be performed by the system.  
+ 
+Indicates a linked subprocess that includes multiple activities, actors, and/or 
+milestones.  
+ 
+Indicates an action that is performed by the system and a subsequent action must 
+be taken within a specified time. 
+ 
+Indicates a conditional gateway that allows the process to follow different paths 
+based on certain conditions or business rules. 
+ 
+Parallel Gateway - Indicates that all subsequent activities flows are triggered at the 
+same time. 
+ 
+Exclusive gateway - Evaluates the state of the process and based on the condition  
+result, only one path is taken out of multiple options.  
+ 
+Indicates a notification task that is performed outside the system. 
+ 
+Indicates an activity that requires human action. 
+Table 16 BPMN Annotations 
+ 
+
+--- Page 49 ---
+  
+  
+ 
+49 
+ 
+12.2 Appendix C – Party Information Guidelines 
+The following table details the guidelines for acceptable party information (Shipper and 
+Consignee names and addresses) to be included in Bills of lading. This ensures adherence to 
+NAIC requirements and helps avoid unnecessary RFIs (Requests for Information): 
+ 
+Element Acceptable Values 
+Party Name 
+(Shipper/Consignee) 
+ Individual Names 
+o Must be the ultimate shipper/consignee’s name, who would receive 
+or ship the cargo.  
+o Shipping Line, Freight Forwarder and consolidator information is not 
+accepted.   
+o Recommended to be full name at least First name plus middle name 
+or last name of the actua l shipper/ consignee (Example: Steven 
+Jackson). 
+o Recommended to be same as the name on any identification card 
+(Passport, National ID). 
+o Must not contain any filler values (TBD, TBC, Unknown). 
+ Company Names 
+o Must be the ultimate shipper/consignee company name, who would 
+receive or ship the cargo. (Example: XX Water Heaters Company LLC) 
+o Shipping Line, Freight Forwarder and consolidator information is not 
+accepted.   
+o Recommended to be full company name. (Example: XXX General 
+Trading FZCO) 
+o Recommended to be same as the name on company registration 
+documents. 
+Must not contain any filler values (Example: TBD, TBC, Unknown).  
+Party Address 
+(Shipper/Consignee) 
+ Accepted party’s addresses 
+o Street Address 
+ Must be accurate and reflect the ultimate 
+shipper/consignee address. (Example: Central Street 13)  
+ Shipping Line , Freight Forwarder and consolidator 
+information is not accepted.   
+ Must not contain any filler values (Example: Unknown, 
+Same as …,’City Name’) 
+ Must not be the same as Country Name value or Location 
+value. 
+ Recommended to be same as the name on any 
+identification card (Passport, National ID). 
+ For import shipment ’s Consignee address must be in  the 
+UAE. 
+ For other shipments the Consignee  address must be 
+located at the destination port. 
+ For export shipments the Shipper  address must be in the 
+UAE. 
+ For other shipments the Shipper address must be located 
+at the origin port. 
+o Location (Place/City) 
+--- Page 50 ---
+  
+  
+ 
+50 
+ 
+ Must be accurate and reflect the ultimate 
+shipper/consignee location (City or place). (Example: 
+Jamaica, Mumbai)  
+ Must not contain any filler values (Example: Unknown, 
+Same as …,’City Name’) 
+o Codded Location (ISO Country Code)   
+ Must be accurate and reflect the ultimate 
+shipper/consignee Country. (Example: IN, US)  
+ Must not contain any filler values (Example: XX) 
+o Postal Code 
+ Must be accurate and reflect the ultimate 
+shipper/consignee postal code. (Example: 3702)  
+ Must not contain any filler values (Example: 123, 00) 
+o Contact Number 
+ Must be accurate and reflect the ultimate 
+shipper/consignee contact number. 
+ Must not contain any filler values (Example: 00000000) 
+ 
+Table 17 Parties Information Guidelines 
+ 
+  
+--- Page 51 ---
+  
+  
+ 
+51 
+ 
+12.3 Appendix D – Goods Description Guidelines 
+The following table presents various unacceptable goods description formats that should be 
+avoided to help prevent the receipt of unnecessary RFIs and ensure strict compliance with NAIC 
+requirements: 
+Unacceptable Format Type Description 
+All Numeric Characters  For example: 1004. 
+File Extensions For example: .wpx 
+Three or more equal 
+symbols or letters 
+For example: AAA.  
+Empty strings  Providing a space or a period or a hyphen solely is unacceptable. 
+All special characters or 
+non-alphanumeric 
+characters 
+For example: $%^&< > : " / \ | ? *@#! 
+Incomplete descriptions Incomplete or partial goods descriptions that lack essential information are 
+unacceptable 
+Ambiguous Descriptions Vague or ambiguous goods descriptions that could  lead to misinterpretation are 
+unacceptable. For example, “Nuts” is unacceptable while “Hexagonal aluminum 
+bicycle nuts” is acceptable. 
+Other Languages 
+descriptions 
+Goods descriptions in other languages than English is unacceptable.  
+Inconsistent information For example, Inconsistencies between goods descriptions in the house and master 
+air waybills are unacceptable. 
+Table 18 Unacceptable goods description formats 
+The following table lists examples of the acceptable and una cceptable goods description values 
+intended for reference: 
+Unacceptable Acceptable 
+Animals Horse 
+Poultry 
+Bovine 
+Apparel/Clothing/Garments 
+Wearing Apparel 
+Ladies' Apparel 
+Men's Apparel 
+Shoes, Footwear 
+Women's Dresses 
+Men's Shirts 
+Boy's Jackets 
+Appliances Refrigerator 
+Stove 
+Microwave Oven 
+Coffee Machines 
+Accessories Hair Elastics 
+Sunglasses 
+Socks 
+Auto Parts Air Filters 
+Automobile Brakes 
+Automotive Windshield 
+Caps Baseball Caps 
+Blasting Caps 
+Bottle Caps 
+Hub Caps 
+--- Page 52 ---
+  
+  
+ 
+52 
+ 
+Chemicals, hazardous 
+Chemicals, Non-hazardous 
+Actual Chemical Name (not brand name): 
+Aluminum Potassium Sulfate 
+Methyl Alcohol 
+Cleaning Products Detergents 
+Mops 
+Window Cleaner 
+Consolidated (if the load 
+is not consolidated and house bills 
+are not expected to follow) 
+Consolidated (where house bills are expected to follow) 
+Consumer Goods A clear and concise description of the item is required 
+Crafts/Craft Supplies 
+Handicrafts 
+Pipe Cleaners 
+Construction Paper 
+Pompoms 
+Decorative objects made by hand 
+General Documents 
+Documents 
+Docs 
+Dox 
+ 
+Must State Type of the document: 
+“Passport” 
+“Identity Card” 
+“Civil Records Documents” 
+ 
+Electronic Goods 
+Electronics 
+Computers, Monitors, Televisions, Mobile Telephones, DVD players, 
+Electronic Toys, Video Game Consoles, Electronic Dolls 
+Equipment 
+Industrial Equipment 
+Oil Well Equipment 
+Poultry Equipment 
+Automotive Equipment 
+Film Camera Film 
+Polyethylene Film 
+Polyester Film 
+Flooring Wood Flooring 
+Carpet 
+Ceramic Tile 
+Marble Flooring 
+Agricultural products 
+Foodstuffs 
+Food preparations 
+Food 
+Meat 
+Fish 
+Produce/Assorted Produce/Mixed 
+produce/Mix Veg 
+Pet food 
+Cases of Food 
+Snacks 
+Packaged Rice, Bulk Rice 
+Fresh Beef, Frozen Chicken 
+Live Trout, Frozen Salmon, Canned Tuna 
+Fresh Oranges, Frozen Broccoli, Canned Peaches 
+Canned Dog Food, Dry Cat Food, Juice, Olive Oil, Soda 
+Didactic articles 
+Stationery 
+Pencils 
+Smart boards 
+Books 
+Pens 
+Luxury Pens 
+--- Page 53 ---
+  
+  
+ 
+53 
+ 
+Gifts/ 
+Novelty Items 
+Dolls 
+Remote Control Cars 
+Picture Frames 
+Household Goods/ 
+Personal Effects 
+Acceptable only when goods are Personal / Used Household Effects 
+transported by a commercial shipping line. Otherwise, See other specific 
+examples in the table 
+Indecipherable descriptions ex. 
+"RED SMOOTH MODULAR", 
+"CDRE", "D6T PARTS", "RIPE 
+A clear and concise description of the item is required – see other 
+acceptable descriptions for examples 
+Iron and steel Iron Pipes 
+Iron Plates 
+Iron Building Material 
+Steel Building Material 
+Leather Articles Saddles 
+Leather Handbags 
+Leather Jackets 
+Shoes 
+Machines Sewing Machines 
+Printing Machines 
+Metal Working Machinery 
+Cigarette Making Machinery 
+Machine Parts Oil Pumps 
+Seals 
+Engines 
+Medical Supplies 
+Biologicals 
+Laboratory Goods 
+Aid consignments 
+Medical Gloves 
+Syringes 
+Dialysis Machine 
+Blood, plasma, tissue, semen 
+Glass vials for laboratory use 
+Medication/Pharmaceuticals Insulin 
+Allergy Medication 
+Metal Ingots of metal (precious or otherwise) 
+Round bars of steel or other metal 
+Deformed bars/rebars (of metal) 
+Plates (of metal) 
+Billets (of metal) 
+Slabs (of metal) 
+Pipes (of metal) 
+Beams (of metal) 
+Tubes/Tubing (of metal) 
+Angles, shapes and sections (of metal) 
+Sheets (of metal) 
+Expanded metal 
+Flat bars (of metal) 
+Strand wire (of metal) 
+Oil Mineral Oil 
+Motor Oil 
+Olive Oil 
+--- Page 54 ---
+  
+  
+ 
+54 
+ 
+Online Retailer 
+Online Retailer Shipment 
+A clear and concise description of the item is required – see other 
+acceptable descriptions for examples 
+Ore Iron Ore 
+Copper Ore 
+Packaging 
+Boxes 
+Cartons 
+Corrugated Cardboard Boxes 
+Mailing Envelopes 
+Plastic Bubble Wrap 
+Palletized Shipment A clear and concise description of the item is required – see other 
+acceptable descriptions for examples 
+Paper Paper Rolls 
+Wrapping Paper 
+Paper Pulp 
+Paper Towel 
+Printing Paper 
+Pipes Plastic Pipes 
+PVC Pipes 
+Steel Pipes 
+Plants/Flowers 
+Cuttings 
+Tulips 
+Cedar Saplings 
+Tomato Plants 
+Plastic Goods 
+Industrial Plastics 
+Plastic Kitchenware 
+Plastic Toys 
+Plastic Sheets 
+Plastic Tubes 
+Polyurethane Polyurethane Threads 
+Polyurethane Medical Gloves 
+Powder Flea Powder 
+Baby Powder 
+Corn Starch 
+Promotional Items A clear and concise description of the item is required – see other 
+acceptable descriptions for examples 
+Pump Oil Pump 
+Water Pump 
+Bicycle Pump 
+Rubber Articles Rubber Hoses 
+Tires 
+Rubber Toys 
+Rubber Conveyor Belts 
+Rods Welding Rods 
+Rebar 
+Aluminum Rods 
+Reactor Rods 
+Sample Shampoo Sample 
+Conditioner Sample 
+Makeup Sample 
+Scrap Plastic Scrap 
+Aluminum Scrap 
+Iron Scrap 
+--- Page 55 ---
+  
+  
+ 
+55 
+ 
+Serial Number only ("SN 
+HAFR997MJ02041010") 
+A clear and concise description of the item is required – see other 
+acceptable descriptions for examples in the table 
+Shingles Asphalt Shingles 
+Steel Shingles 
+Wood Shingles 
+Spare Parts Cellphone Replacement Screen 
+New Automobile Breaks 
+Sporting Goods Hockey Sticks 
+Soccer Balls 
+Goal Nets 
+STC (Said to Contain) 
+General Cargo 
+FAK (Freight of All Kinds) 
+"No Description" 
+'Misc/Miscellaneous' 
+Various 
+General 
+Unknown 
+UNK 
+XX 
+NOI (Not Otherwise Indicated) 
+NES (Note Elsewhere Specified) 
+123456789 
+NONE 
+NO 
+NA 
+Not Applicable 
+Invoice Number 
+If the shipment is consolidated, (where house bills are expected to follow), 
+the following descriptions may be accepted: 
+Freight of All Kinds (FAK), Shipper load and count (SLC) and consolidated 
+Steel Steel Plates 
+Steel Coils 
+Supplements Vitamins 
+Protein Powder 
+Supplies A clear and concise description of the item is required – see other 
+acceptable descriptions for examples 
+Taxable Groceries Ice Cream 
+Potato Chips 
+Textiles Carpets/Rugs 
+Silk 
+Finished Fabric Rolls 
+Tiles Ceramic Tiles 
+Marble Tiles 
+Toiletries/Bathroom Products/ 
+Sanitary goods 
+Towels 
+Toothbrushes 
+Shampoo 
+Tools Hand Tools 
+Power Tools 
+Industrial Tools 
+Toys/Games Wooden Children's Toys 
+Plastic Children's Toys 
+--- Page 56 ---
+  
+  
+ 
+56 
+ 
+Board Games 
+Console Games 
+Vehicles Cars, Trucks, Buses 
+Tractors, Combines 
+Bicycles 
+Boats 
+Wires Steel Wire 
+Copper Wire 
+Auto Harness 
+Coiled Wire (Industrial) 
+Wood Hemlock logs with bark 
+Empty Wood Pallets 
+Cut Lumber 
+Table 19 Unacceptable Goods Description Values 
+ 
+ 
+ 
