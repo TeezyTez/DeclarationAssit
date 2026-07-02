@@ -277,36 +277,41 @@ class LLMBackend:
     def _pattern_match(self, query: str, context: str) -> str:
         """Simple pattern matching to extract relevant answers."""
         q = query.lower()
+        is_english = self._is_english_query(query)
 
         # Determine question category
         if self._is_hbl_requirement_question(q):
             return self._answer_hbl_requirements(query, context)
         elif any(k in q for k in ["hs code", "hs编码", "海关编码", "商品编码"]):
-            return self._answer_hs_code(context)
+            return self._answer_hs_code_en(context) if is_english else self._answer_hs_code(context)
         elif any(k in q for k in ["收货人", "consignee", "to order"]):
-            return self._answer_consignee(context)
+            return self._answer_consignee_en(context) if is_english else self._answer_consignee(context)
         elif any(k in q for k in ["时限", "cut-off", "截止", "几小时", "多久", "提前", "最晚"]) or ("direct" in q and "b/l" in q and any(k in q for k in ["when", "time", "deadline", "最晚", "申报"])):
-            return self._answer_timing(context)
+            return self._answer_timing_en(context) if is_english else self._answer_timing(context)
+        elif any(k in q for k in ["party id", "mpci party id"]):
+            return self._answer_party_id_en(context) if is_english else self._answer_party_id(context)
+        elif any(k in q for k in ["委托", "delegation", "代理", "代申报"]):
+            return self._answer_delegation_en(context) if is_english else self._answer_delegation(context)
+        elif any(k in q for k in ["psf", "pending sub filing"]):
+            return self._answer_psf_en(context) if is_english else self._answer_psf(context)
         elif self._is_forwarder_child_cargo_question(q):
             return self._answer_forwarder_child_cargo(context)
-        elif any(k in q for k in ["委托", "delegation", "代理", "代申报"]):
-            return self._answer_delegation(context)
         elif any(k in q for k in ["consolidation", "合并", "co-load", "拼柜"]):
-            return self._answer_consolidation(context)
+            return self._answer_consolidation_en(context) if is_english else self._answer_consolidation(context)
         elif any(k in q for k in ["dnl", "do not load", "不装", "拒绝"]):
-            return self._answer_dnl(context)
+            return self._answer_dnl_en(context) if is_english else self._answer_dnl(context)
         elif any(k in q for k in ["rfi", "request for information", "补料"]):
-            return self._answer_rfi(context)
-        elif any(k in q for k in ["party id", "mpci party id"]):
-            return self._answer_party_id(context)
+            return self._answer_rfi_en(context) if is_english else self._answer_rfi(context)
         elif any(k in q for k in ["更新", "update", "修改", "amend", "变更"]):
-            return self._answer_update(context)
+            return self._answer_update_en(context) if is_english else self._answer_update(context)
         elif any(k in q for k in ["split", "分单", "分批"]):
-            return self._answer_split(context)
+            return self._answer_split_en(context) if is_english else self._answer_split(context)
         elif any(k in q for k in ["重量", "weight", "体积", "package", "包装"]):
-            return self._answer_goods(context)
+            return self._answer_goods_en(context) if is_english else self._answer_goods(context)
+        elif any(k in q for k in ["general cargo", "commodity", "goods description"]):
+            return self._answer_goods_en(context) if is_english else self._answer_goods(context)
         elif any(k in q for k in ["谁", "角色", "申报", "filer", "责任"]):
-            return self._answer_roles(context)
+            return self._answer_roles_en(context) if is_english else self._answer_roles(context)
         else:
             return self._answer_general(query, context)
 
@@ -364,6 +369,21 @@ class LLMBackend:
 > 📌 **注意**：这些是业务规范要求，具体报文层面的实现细节（CUSCAR 消息中如何使用循环段）请参考 **MPCI – Message Implementation Guide (MIG)** 文档。
 """
 
+    def _answer_hs_code_en(self, context: str) -> str:
+        return """If one shipment contains multiple HS Codes, file the cargo by goods item. Do not collapse everything into one generic HS Code.
+
+You should provide, for each goods item:
+
+| Field | What to provide |
+|---|---|
+| HS Code | The HS Code for that specific commodity |
+| Goods description | A clear and specific English description |
+| Weight | Weight for that goods item |
+| Package type / quantity | Package details for that goods item |
+| Container placement | Which container contains which goods item |
+
+Avoid vague descriptions such as "general cargo", "FAK", or "STC". If the shipper cannot provide exact commodity details, ask them to provide the specific commodity name, HS Code, package quantity/type, and gross weight before filing."""
+
     def _answer_hbl_requirements(self, query: str, context: str) -> str:
         if self._is_english_query(query):
             return """For HBL filing, there is normally no separate “special document” that must be uploaded just because it is an HBL. The key point is that the HBL filing must contain enough complete and specific data for MPCI assessment.
@@ -416,8 +436,8 @@ So the answer is: no extra HBL-only special document is normally required, but g
 
     def _is_english_query(self, query: str) -> bool:
         ascii_letters = sum(1 for char in query if char.isascii() and char.isalpha())
-        non_ascii = sum(1 for char in query if not char.isascii())
-        return ascii_letters >= max(10, non_ascii)
+        cjk_chars = sum(1 for char in query if "\u4e00" <= char <= "\u9fff")
+        return ascii_letters > max(10, cjk_chars * 2)
 
     def _looks_chinese(self, text: str) -> bool:
         sample = text[:300]
@@ -451,6 +471,20 @@ So the answer is: no extra HBL-only special document is normally required, but g
 > 参考章节：§5.2, §Appendix C
 """
 
+    def _answer_consignee_en(self, context: str) -> str:
+        return """For a To Order B/L, do not enter "To Order" as the consignee name.
+
+Use this rule of thumb:
+
+| B/L scenario | Consignee handling |
+|---|---|
+| Non-negotiable B/L | Provide the final consignee name and address |
+| Blank-endorsed To Order B/L | Leave the consignee field blank |
+| To Order of a Bank | Leave consignee blank; put the bank in the payer-on-behalf-of-importer field if required |
+| To Order of shipper or another named party | Use that named party as applicable |
+
+If this is a consolidation case, the upper-layer consolidated bill may leave consignee blank, while the lower House B/L should provide the final consignee details."""
+
     def _answer_timing(self, context: str) -> str:
         return """根据 MPCI 业务规范第 3.3 节（Filing Timing）：
 
@@ -470,6 +504,18 @@ So the answer is: no extra HBL-only special document is normally required, but g
 
 > 参考章节：§3.3, §7
 """
+
+    def _answer_timing_en(self, context: str) -> str:
+        return """The filing deadline depends on the role and B/L type:
+
+| Filer / B/L type | Filing deadline |
+|---|---|
+| Shipping line - Master B/L | 6 hours before loading |
+| Shipping line - Direct B/L | 24 hours before loading |
+| Freight forwarder / Sub Co-loader - lowest House B/L | 24 hours before loading |
+| Master Co-loader B/L | 6 hours before loading |
+
+Use the earlier deadline when you are unsure which level applies. For a Direct B/L, treat the deadline as 24 hours before loading."""
 
     def _answer_delegation(self, context: str) -> str:
         return """根据 MPCI 业务规范第 4.6 节（Delegation Process）：
@@ -500,6 +546,20 @@ So the answer is: no extra HBL-only special document is normally required, but g
 
 > 参考章节：§4.6
 """
+
+    def _answer_delegation_en(self, context: str) -> str:
+        return """Delegation is allowed, but the filing role and responsibility must remain clear.
+
+For freight forwarders, delegation can happen between local and overseas forwarders, or between Master Co-loader and Sub Co-loader. The delegating party must share its MPCI Party ID with the party that will file on its behalf.
+
+Practical steps:
+
+1. Confirm who is the actual B/L issuer.
+2. Confirm who will submit the MPCI filing.
+3. Share the required MPCI Party ID with the delegated filer.
+4. Make sure the filing reflects the correct issuer and parent/child B/L relationship.
+
+Delegation does not mean inventing a new B/L number or changing the actual issuer of the bill."""
 
     def _answer_consolidation(self, context: str) -> str:
         return """根据 MPCI 业务规范第 6.1 节（Consolidation and Co-loading）：
@@ -536,6 +596,18 @@ NAIC 要求提交**所有层级**的提单，实现全程可追溯。
 
 > 参考章节：§6.1
 """
+
+    def _answer_consolidation_en(self, context: str) -> str:
+        return """For consolidation or co-loading, every B/L layer needs to be linked so NAIC can trace the cargo chain.
+
+Practical handling:
+
+1. The shipping line files the Master B/L and identifies the NVOCC or relevant party.
+2. The Master Co-loader files its consolidated B/L and identifies the expected lower-layer filer.
+3. The Sub Co-loader files the lower House B/L with final shipper, consignee, and cargo details.
+4. Parties should exchange MPCI Party IDs so parent and child filings can be linked.
+
+If you do not actually issue a B/L at your layer, do not create a fake B/L number just for MPCI. Coordinate the correct Party IDs, parent B/L, child B/Ls, and filing responsibility instead."""
 
     def _answer_forwarder_child_cargo(self, context: str) -> str:
         return """先确认你是否实际签发自己这一层的提单，这是决定申报方式的关键。
@@ -598,6 +670,18 @@ NAIC 要求提交**所有层级**的提单，实现全程可追溯。
 > 参考章节：§4.5, §6.1.4.2
 """
 
+    def _answer_dnl_en(self, context: str) -> str:
+        return """If one House B/L receives DNL, that issue affects the related Master B/L, but the other House B/Ls under the same master are not automatically treated as DNL.
+
+What you should do:
+
+1. Do not load the cargo covered by the DNL House B/L.
+2. Identify and remove the problematic House B/L from the consolidation.
+3. Re-consolidate or update the remaining cargo under a valid Master B/L structure.
+4. Resubmit or update the affected filings as needed.
+
+If the DNL is at Master B/L level, the impact is broader and can affect all House B/Ls under that Master."""
+
     def _answer_rfi(self, context: str) -> str:
         return """根据 MPCI 业务规范第 4.5 节和第 6.1.4.3 节：
 
@@ -620,6 +704,35 @@ NAIC 认为提交的信息不完整、不准确或需要额外文件（如发票
 
 > 参考章节：§4.5, §6.1.4.3
 """
+
+    def _answer_rfi_en(self, context: str) -> str:
+        return """RFI means Request for Information. It means NAIC needs additional or corrected information before the filing can be cleared.
+
+Practical handling:
+
+1. Check which B/L level received the RFI: Master or House.
+2. Collect the missing data or requested supporting document.
+3. Submit an updated filing or attachment as required.
+4. Do not assume the shipment is cleared until the RFI is resolved.
+
+If a Master B/L is under RFI, House B/Ls may already have ACT, but the Master cannot be treated as loadable until the Master-level RFI is resolved."""
+
+    def _answer_psf(self, context: str) -> str:
+        return """PSF 表示 Pending Sub Filing，通常说明下层 House B/L 还没有完成或没有正确关联。
+
+你应该先联系缺失的 Sub Co-loader 或下层货代，确认他们是否已经提交 House B/L，并核对 parent B/L、Party ID 和提单号是否一致。下层补齐或修正后，上层状态才有机会解除 pending。"""
+
+    def _answer_psf_en(self, context: str) -> str:
+        return """PSF means Pending Sub Filing. It usually indicates that a lower-layer House B/L is missing, not yet filed, or not correctly linked.
+
+What you should do:
+
+1. Contact the relevant sub co-loader or lower-layer forwarder.
+2. Ask them to file the missing House B/L or correct the existing filing.
+3. Check that the parent B/L number, child B/L number, and MPCI Party IDs match.
+4. Once the missing sub filing is completed and linked, the upper-level pending status can be cleared.
+
+If the shipping line receives PSF because a sub co-loader has not filed, the practical action is to chase the missing House B/L filing rather than changing the Master B/L blindly."""
 
     def _answer_party_id(self, context: str) -> str:
         return """根据 MPCI 业务规范第 5.3 节（MPCI Party ID）：
@@ -646,6 +759,19 @@ NAIC 分配给每个经济运营商（船公司、货代、NVOCC）的唯一标�
 
 > 参考章节：§5.3
 """
+
+    def _answer_party_id_en(self, context: str) -> str:
+        return """MPCI Party ID is the unique identifier assigned to a party such as a shipping line, freight forwarder, or NVOCC.
+
+How to use it:
+
+| Scenario | Practical use |
+|---|---|
+| Own filing | Provide your own MPCI Party ID |
+| Delegated filing | The delegated filer needs the delegating party's MPCI Party ID |
+| Consolidation / co-loading | Parties exchange Party IDs so parent and child filings can be linked |
+
+Freight forwarder Party IDs are not publicly listed for other forwarders to search. If another forwarder needs to file and link to you, you should share your Party ID with them directly through your business channel."""
 
     def _answer_update(self, context: str) -> str:
         return """根据 MPCI 业务规范第 6.2 节（Updating a Bill of Lading）：
@@ -677,6 +803,21 @@ NAIC 分配给每个经济运营商（船公司、货代、NVOCC）的唯一标�
 > 参考章节：§6.2
 """
 
+    def _answer_update_en(self, context: str) -> str:
+        return """Yes, B/L updates can be submitted after the shipment arrives in UAE, but the first filing still has to be submitted before loading.
+
+Common update scenarios include:
+
+| Scenario | Handling |
+|---|---|
+| Correction or re-measurement | Submit an updated version |
+| Consignee change / endorsement | Submit the updated consignee details |
+| Vessel or voyage change | Update or cancel and resubmit as appropriate |
+| RFI response | Submit the missing or corrected information |
+| Switch Bill / Split Bill | Submit the corresponding update or new linked B/L |
+
+An update can trigger reassessment, so make sure the changed fields are accurate and the current B/L status allows the update."""
+
     def _answer_split(self, context: str) -> str:
         return """根据 MPCI 业务规范第 6.2.3 节（Split Bill of Lading Handling）：
 
@@ -698,6 +839,13 @@ NAIC 分配给每个经济运营商（船公司、货代、NVOCC）的唯一标�
 
 > 参考章节：§6.2.3
 """
+
+    def _answer_split_en(self, context: str) -> str:
+        return """For a Split Bill of Lading, keep the parent-child relationship clear.
+
+The shipping line can either keep the original B/L and submit a new B/L for the split cargo, or update the original B/L and submit the new linked B/L.
+
+If House B/Ls are affected, the freight forwarder should update the relevant House B/Ls or submit new House B/Ls that reference the correct split Master B/L. Do not leave the lower-layer filings linked to an outdated parent B/L."""
 
     def _answer_goods(self, context: str) -> str:
         return """根据 MPCI 业务规范第 5.1 节：
@@ -721,6 +869,21 @@ NAIC 分配给每个经济运营商（船公司、货代、NVOCC）的唯一标�
 
 > 参考章节：§5.1, §Appendix D
 """
+
+    def _answer_goods_en(self, context: str) -> str:
+        return """Do not declare the goods description as only "general cargo" if the shipper cannot provide exact commodity details.
+
+Before filing, ask the shipper to provide:
+
+| Data | Requirement |
+|---|---|
+| Goods description | Specific English commodity description |
+| HS Code | HS Code for each goods item |
+| Package details | Package type and quantity |
+| Weight | Gross weight for each goods item |
+| Container placement | Which goods are loaded in which container |
+
+Vague descriptions such as "general cargo", "FAK", "STC", or overly broad commodity wording are not safe for MPCI filing. If details are missing, collect them first rather than submitting incomplete cargo data."""
 
     def _answer_roles(self, context: str) -> str:
         return """根据 MPCI 业务规范第 3.1 节（Filers and Their Roles）：
@@ -750,6 +913,19 @@ NAIC 分配给每个经济运营商（船公司、货代、NVOCC）的唯一标�
 
 > 参考章节：§3.1, §3.2
 """
+
+    def _answer_roles_en(self, context: str) -> str:
+        return """The filing responsibility depends on the role and the B/L level:
+
+| Role | Typical filing |
+|---|---|
+| Shipping line | Master B/L or Direct B/L |
+| Shipping agent | Filing or responsibility delegated by shipping line |
+| Freight forwarder / NVOCC | House B/L |
+| Master Co-loader | Consolidated upper-layer co-loader B/L |
+| Sub Co-loader | Lower-layer House B/L |
+
+The practical question is always: who issued the B/L, which parent B/L it links to, and who is responsible for submitting that layer."""
 
     def _answer_general(self, query: str, context: str) -> str:
         """Generic answer when no specific pattern matches."""
